@@ -1,0 +1,64 @@
+{
+    "name": "daniser/model-editor",
+    "type": "library",
+    "description": "Laravel Eloquent Model Editor UI.",
+    "keywords": ["laravel", "eloquent", "model", "editor"],
+    "license": "MIT",
+    "support": {
+        "issues": "https://github.com/daniser/model-editor/issues",
+        "source": "https://github.com/daniser/model-editor"
+    },
+    "authors": [
+        {
+            "name": "Sergey Danilchenko",
+            "email": "s.danilchenko@ttbooking.ru"
+        }
+    ],
+    "require": {
+        "php": "^8.2",
+        "laravel/framework": "^12.11"
+    },
+    "require-dev": {
+        "fakerphp/faker": "^1.23",
+        "larastan/larastan": "^3.0",
+        "laravel/pint": "^1.16.1",
+        "mockery/mockery": "^1.6",
+        "orchestra/testbench": "^10.0",
+        "pestphp/pest": "^3.2",
+        "pestphp/pest-plugin-laravel": "^3.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "TTBooking\\ModelEditor\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "TTBooking\\ModelEditor\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "TTBooking\\ModelEditor\\ModelEditorServiceProvider"
+            ],
+            "aliases": {
+                "PropertyParser": "TTBooking\\ModelEditor\\Facades\\PropertyParser",
+                "TypeHandler": "TTBooking\\ModelEditor\\Facades\\TypeHandler"
+            }
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        },
+        "sort-packages": true
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "scripts": {
+        "analyse": "@php vendor/bin/phpstan analyse",
+        "lint": "@php vendor/bin/pint --test",
+        "test": "@php vendor/bin/pest"
+    }
+}
