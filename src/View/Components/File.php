@@ -23,7 +23,7 @@ class File extends Component
     public function render(): View|Closure|string
     {
         return <<<'blade'
-<input type="file" name="{{ $property->variableName }}" value="{{ $model->{$property->variableName} }}" @multiple($property->type->name === 'list') @readonly(! $property->writable) />
+<input type="file" name="{{ $property->variableName }}" value="{{ $model->{$property->variableName} }}" {!! $property->type->name === 'list' ? 'multiple' : '' !!} @readonly(! $property->writable) />
 blade;
     }
 }
