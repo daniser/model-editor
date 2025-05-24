@@ -10,7 +10,7 @@ use Stringable;
 
 readonly class AuraType implements Stringable
 {
-    /** @var list<static|string> */
+    /** @var list<static> */
     public array $parameters;
 
     /**
