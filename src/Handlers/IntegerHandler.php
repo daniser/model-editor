@@ -17,7 +17,7 @@ class IntegerHandler implements TypeHandler
 
     public function component(): string
     {
-        return 'model-editor::components.number';
+        return 'model-editor::number';
     }
 
     public function validate(Request $request, AuraProperty $property): bool

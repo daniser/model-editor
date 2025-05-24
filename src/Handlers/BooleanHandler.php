@@ -17,7 +17,7 @@ class BooleanHandler implements TypeHandler
 
     public function component(): string
     {
-        return 'model-editor::components.checkbox';
+        return 'model-editor::checkbox';
     }
 
     public function validate(Request $request, AuraProperty $property): bool

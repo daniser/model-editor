@@ -17,7 +17,7 @@ class StringHandler implements TypeHandler
 
     public function component(): string
     {
-        return 'model-editor::components.text';
+        return 'model-editor::text';
     }
 
     public function validate(Request $request, AuraProperty $property): bool

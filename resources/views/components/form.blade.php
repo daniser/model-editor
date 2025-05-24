@@ -1,6 +1,6 @@
 <div>
-    <h1>{{ $aura->summary }}</h1>
-    <h2>{{ $aura->description }}</h2>
+    <h4>{{ $aura->summary }}</h4>
+    <h5>{{ $aura->description }}</h5>
     <table>
         @foreach ($aura->properties as $property)
         <tr>
