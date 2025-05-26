@@ -6,20 +6,20 @@ namespace TTBooking\ModelEditor\Facades;
 
 use Illuminate\Support\Facades\Facade;
 use TTBooking\ModelEditor\Entities\AuraProperty;
-use TTBooking\ModelEditor\Contracts\TypeHandler as TypeHandlerContract;
+use TTBooking\ModelEditor\Contracts\PropertyHandler as PropertyHandlerContract;
 
 /**
- * @method static TypeHandlerContract for(AuraProperty $property)
+ * @method static PropertyHandlerContract for(AuraProperty $property)
  *
  * @see \TTBooking\ModelEditor\HandlerFactory
  */
-class TypeHandler extends Facade
+class PropertyHandler extends Facade
 {
     /**
      * Get the registered name of the component.
      */
     protected static function getFacadeAccessor(): string
     {
-        return 'type-handler';
+        return 'property-handler';
     }
 }

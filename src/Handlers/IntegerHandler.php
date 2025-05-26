@@ -7,10 +7,10 @@ namespace TTBooking\ModelEditor\Handlers;
 use Illuminate\Contracts\Translation\Translator;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
-use TTBooking\ModelEditor\Contracts\TypeHandler;
+use TTBooking\ModelEditor\Contracts\PropertyHandler;
 use TTBooking\ModelEditor\Entities\AuraProperty;
 
-class IntegerHandler implements TypeHandler
+class IntegerHandler implements PropertyHandler
 {
     public function __construct(public AuraProperty $property, protected Translator $translator) {}
 

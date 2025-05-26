@@ -12,5 +12,5 @@ interface HandlerFactory
     /**
      * @throws InvalidArgumentException
      */
-    public function for(AuraProperty $property): TypeHandler;
+    public function for(AuraProperty $property): PropertyHandler;
 }

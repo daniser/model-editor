@@ -6,8 +6,9 @@ namespace TTBooking\ModelEditor\Tests;
 
 use Orchestra\Testbench\TestCase as OrchestraTestCase;
 use TTBooking\ModelEditor\Entities\Aura;
+use TTBooking\ModelEditor\Facades\ActionHandler;
+use TTBooking\ModelEditor\Facades\PropertyHandler;
 use TTBooking\ModelEditor\Facades\PropertyParser;
-use TTBooking\ModelEditor\Facades\TypeHandler;
 use TTBooking\ModelEditor\ModelEditorServiceProvider;
 
 abstract class TestCase extends OrchestraTestCase
@@ -25,7 +26,8 @@ abstract class TestCase extends OrchestraTestCase
     {
         return [
             'PropertyParser' => PropertyParser::class,
-            'TypeHandler' => TypeHandler::class,
+            'PropertyHandler' => PropertyHandler::class,
+            'ActionHandler' => ActionHandler::class,
         ];
     }
 

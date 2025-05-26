@@ -44,7 +44,8 @@
             ],
             "aliases": {
                 "PropertyParser": "TTBooking\\ModelEditor\\Facades\\PropertyParser",
-                "TypeHandler": "TTBooking\\ModelEditor\\Facades\\TypeHandler"
+                "PropertyHandler": "TTBooking\\ModelEditor\\Facades\\PropertyHandler",
+                "ActionHandler": "TTBooking\\ModelEditor\\Facades\\ActionHandler"
             }
         }
     },

@@ -18,7 +18,8 @@ class ModelEditorServiceProvider extends ServiceProvider // implements Deferrabl
      */
     public array $singletons = [
         'property-parser' => PropertyParserManager::class,
-        'type-handler' => HandlerFactory::class,
+        'property-handler' => HandlerFactory::class,
+        'action-handler' => ActionHandler::class,
     ];
 
     /**
@@ -99,7 +100,8 @@ class ModelEditorServiceProvider extends ServiceProvider // implements Deferrabl
     {
         return [
             'property-parser', 'property-parser.driver', PropertyParser::class,
-            'type-handler', Contracts\HandlerFactory::class,
+            'property-handler', Contracts\HandlerFactory::class,
+            'action-handler', Contracts\ActionHandler::class,
         ];
     }
 }

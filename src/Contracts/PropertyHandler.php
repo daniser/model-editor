@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use TTBooking\ModelEditor\Entities\AuraProperty;
 
-interface TypeHandler
+interface PropertyHandler
 {
     public static function satisfies(AuraProperty $property): bool;
 
