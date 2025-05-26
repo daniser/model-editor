@@ -18,8 +18,7 @@ class ActionHandler implements Contracts\ActionHandler
         $aura = $this->parser->parse($model);
 
         foreach ($aura->properties as $property) {
-            $handler = $this->handler->for($property);
-            $handler->handle($model, $request);
+            $this->handler->for($property)->handle($model, $request);
         }
 
         return $model;
