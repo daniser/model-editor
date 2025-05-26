@@ -10,13 +10,13 @@ use TTBooking\ModelEditor\Entities\AuraProperty;
 
 interface TypeHandler
 {
-    public function satisfies(AuraProperty $property): bool;
+    public static function satisfies(AuraProperty $property): bool;
 
-    public function description(AuraProperty $property): string;
+    public function description(): string;
 
     public function component(): string;
 
-    public function handle(Request $request, Model $model, AuraProperty $property): void;
+    public function handle(Model $model, Request $request): void;
 
-    public function validate(Request $request, AuraProperty $property): bool;
+    public function validate(Request $request): bool;
 }

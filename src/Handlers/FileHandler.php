@@ -13,21 +13,21 @@ use TTBooking\ModelEditor\Types\File;
 
 class FileHandler implements TypeHandler
 {
-    public function __construct(protected Translator $translator) {}
+    public function __construct(public AuraProperty $property, protected Translator $translator) {}
 
-    public function satisfies(AuraProperty $property): bool
+    public static function satisfies(AuraProperty $property): bool
     {
         return is_a($property->type->name, File::class, true)
             || $property->type->name === 'list' && is_a($property->type->parameters[0]->name, File::class, true);
     }
 
-    public function description(AuraProperty $property): string
+    public function description(): string
     {
-        return $property->description;
+        return $this->property->description;
 
         // $description = $this->translator->get($transKey);
 
-        // return $description !== $transKey ? $description : $property->description;
+        // return $description !== $transKey ? $description : $this->property->description;
     }
 
     public function component(): string
@@ -35,13 +35,13 @@ class FileHandler implements TypeHandler
         return 'model-editor::file';
     }
 
-    public function handle(Request $request, Model $model, AuraProperty $property): void
+    public function handle(Model $model, Request $request): void
     {
-        $model->{$property->variableName} = $request->file($property->variableName)
-            ->store($model->getKey().'/'.$property->variableName);
+        $model->{$this->property->variableName} = $request->file($this->property->variableName)
+            ->store($model->getKey().'/'.$this->property->variableName);
     }
 
-    public function validate(Request $request, AuraProperty $property): bool
+    public function validate(Request $request): bool
     {
         return true;
     }

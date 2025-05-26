@@ -12,20 +12,20 @@ use TTBooking\ModelEditor\Entities\AuraProperty;
 
 class StringHandler implements TypeHandler
 {
-    public function __construct(protected Translator $translator) {}
+    public function __construct(public AuraProperty $property, protected Translator $translator) {}
 
-    public function satisfies(AuraProperty $property): bool
+    public static function satisfies(AuraProperty $property): bool
     {
         return in_array($property->type->name, ['string', 'non-empty-string', 'class-string'], true);
     }
 
-    public function description(AuraProperty $property): string
+    public function description(): string
     {
-        return $property->description;
+        return $this->property->description;
 
         // $description = $this->translator->get($transKey);
 
-        // return $description !== $transKey ? $description : $property->description;
+        // return $description !== $transKey ? $description : $this->property->description;
     }
 
     public function component(): string
@@ -33,12 +33,12 @@ class StringHandler implements TypeHandler
         return 'model-editor::text';
     }
 
-    public function handle(Request $request, Model $model, AuraProperty $property): void
+    public function handle(Model $model, Request $request): void
     {
-        $model->{$property->variableName} = $request->{$property->variableName};
+        $model->{$this->property->variableName} = $request->{$this->property->variableName};
     }
 
-    public function validate(Request $request, AuraProperty $property): bool
+    public function validate(Request $request): bool
     {
         return true;
     }
