@@ -49,6 +49,7 @@ class ModelEditorServiceProvider extends ServiceProvider // implements Deferrabl
     protected function registerComponents(): void
     {
         Blade::componentNamespace('TTBooking\\ModelEditor\\View\\Components', 'model-editor');
+        Blade::anonymousComponentPath(__DIR__.'/../resources/views/components', 'model-editor');
     }
 
     /**

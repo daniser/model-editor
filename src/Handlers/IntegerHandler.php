@@ -30,7 +30,7 @@ class IntegerHandler implements PropertyHandler
 
     public function component(): string
     {
-        return 'model-editor::number';
+        return 'model-editor::form.number';
     }
 
     public function handle(Model $model, Request $request): void

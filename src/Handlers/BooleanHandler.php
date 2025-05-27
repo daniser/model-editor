@@ -30,7 +30,7 @@ class BooleanHandler implements PropertyHandler
 
     public function component(): string
     {
-        return 'model-editor::checkbox';
+        return 'model-editor::form.checkbox';
     }
 
     public function handle(Model $model, Request $request): void

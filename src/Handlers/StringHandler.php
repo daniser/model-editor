@@ -30,7 +30,7 @@ class StringHandler implements PropertyHandler
 
     public function component(): string
     {
-        return 'model-editor::text';
+        return 'model-editor::form.text';
     }
 
     public function handle(Model $model, Request $request): void

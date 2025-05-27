@@ -6,7 +6,7 @@
         <tr>
             <th>{{ $property->description }}</th>
             @php($component = PropertyHandler::for($property)->component())
-            <td><x-dynamic-component :$component :$model :$property /></td>
+            <td><x-dynamic-component :$component :$property /></td>
         </tr>
         @endforeach
     </table>

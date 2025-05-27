@@ -32,7 +32,7 @@ class FileHandler implements PropertyHandler
 
     public function component(): string
     {
-        return 'model-editor::file';
+        return 'model-editor::form.file';
     }
 
     public function handle(Model $model, Request $request): void
