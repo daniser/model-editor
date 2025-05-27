@@ -25,7 +25,7 @@ class HandlerFactory implements Contracts\HandlerFactory
 
     public function for(AuraProperty $property): PropertyHandler
     {
-        $handlerClass = $this->handlers->first->satisfies($property)
+        $handlerClass = $this->handlers->first(static fn (string $handlerClass) => $handlerClass::satisfies($property))
             ?? throw new InvalidArgumentException("Property type [$property->type] unsupported.");
 
         return $this->container->make($handlerClass, compact('property'));

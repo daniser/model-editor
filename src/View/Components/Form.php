@@ -28,6 +28,6 @@ class Form extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('model-editor::components.form');
+        return view('model-editor::components.form.form');
     }
 }
