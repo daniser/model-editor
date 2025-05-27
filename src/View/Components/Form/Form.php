@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace TTBooking\ModelEditor\View\Components;
+namespace TTBooking\ModelEditor\View\Components\Form;
 
 use Closure;
 use Illuminate\Contracts\View\View;

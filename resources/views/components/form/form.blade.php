@@ -5,8 +5,7 @@
         @foreach ($aura->properties as $property)
         <tr>
             <th>{{ $property->description }}</th>
-            @php($component = PropertyHandler::for($property)->component())
-            <td><x-dynamic-component :$component :$property /></td>
+            <td><x-model-editor::form.input :$property /></td>
         </tr>
         @endforeach
     </table>
