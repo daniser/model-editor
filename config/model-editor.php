@@ -11,6 +11,7 @@ return [
         TTBooking\ModelEditor\Handlers\IntegerHandler::class,
         TTBooking\ModelEditor\Handlers\StringHandler::class,
         TTBooking\ModelEditor\Handlers\FileHandler::class,
+        TTBooking\ModelEditor\Handlers\FallbackHandler::class,
     ],
 
 ];
