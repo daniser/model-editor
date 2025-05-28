@@ -19,15 +19,6 @@ class FallbackHandler implements PropertyHandler
         return true;
     }
 
-    public function description(): string
-    {
-        return $this->property->description;
-
-        // $description = $this->translator->get($transKey);
-
-        // return $description !== $transKey ? $description : $this->property->description;
-    }
-
     public function component(): string
     {
         return 'model-editor::form.disclaimer';

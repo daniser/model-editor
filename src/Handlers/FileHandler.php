@@ -21,15 +21,6 @@ class FileHandler implements PropertyHandler
             || $property->type->name === 'list' && is_a($property->type->parameters[0]->name, File::class, true);
     }
 
-    public function description(): string
-    {
-        return $this->property->description;
-
-        // $description = $this->translator->get($transKey);
-
-        // return $description !== $transKey ? $description : $this->property->description;
-    }
-
     public function component(): string
     {
         return 'model-editor::form.file';

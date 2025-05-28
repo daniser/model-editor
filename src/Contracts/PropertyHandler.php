@@ -12,8 +12,6 @@ interface PropertyHandler
 {
     public static function satisfies(AuraProperty $property): bool;
 
-    public function description(): string;
-
     public function component(): string;
 
     public function handle(Model $model, Request $request): void;
