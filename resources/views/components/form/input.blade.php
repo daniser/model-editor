@@ -1,3 +1,3 @@
 @aware(['alias'])
 
-<x-dynamic-component :$component :$property :$id />
+<x-dynamic-component {{ $attributes }} :$component :$property />
