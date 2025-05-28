@@ -9,8 +9,9 @@
     <table {{ $attributes->except(['id', 'action']) }}>
         @foreach ($aura->properties as $property)
             <tr>
-                <th>{{ $property->description }}</th>
-                <td><x-model-editor::form.input :$property /></td>
+                @php($id = $alias.'_'.Str::snake($property->variableName))
+                <th><label for="{{ $id }}"{{ $property->description }}</th>
+                <td><x-model-editor::form.input :$property :$id /></td>
             </tr>
         @endforeach
     </table>
