@@ -1,8 +1,8 @@
 <form {{ $attributes->only(['id', 'action']) }} method="POST">
     @method('PUT')
     @if (! isset($title) || $title->isEmpty())
-        <h4>{{ $aura->summary }}</h4>
-        <h5>{{ $aura->description }}</h5>
+        <h4>{{ $summary }}</h4>
+        <h5>{{ $description }}</h5>
     @else
         {{ $title }}
     @endif
