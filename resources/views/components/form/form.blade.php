@@ -8,11 +8,7 @@
     @endif
     <table {{ $attributes->except(['id', 'action']) }}>
         @foreach ($aura->properties as $property)
-            <tr>
-                @php($id = $alias.'_'.Str::snake($property->variableName))
-                <th><label for="{{ $id }}">{{ $property->description }}</label></th>
-                <td><x-model-editor::form.input :$property :$id /></td>
-            </tr>
+            <x-model-editor::form.row :$property />
         @endforeach
     </table>
     @if (! isset($buttons) || $buttons->isEmpty())
