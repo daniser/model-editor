@@ -46,8 +46,8 @@ class Form extends Component
     protected static function guessAlias(Model $model): string
     {
         return (string) str(get_class($model))->whenStartsWith(
-            app()->getNamespace().'Models\\',
-            static fn (Stringable $class, string $namespace) => $class->after($namespace)->replace('\\', '')->snake(),
+            $namespace = app()->getNamespace().'Models\\',
+            static fn (Stringable $class) => $class->after($namespace)->replace('\\', '')->snake(),
             static fn () => throw new InvalidArgumentException('Model alias cannot be determined.')
         );
     }

@@ -1,1 +1,1 @@
-<i>Property type unsupported.</i>
+<i {{ $attributes }}>Property type unsupported.</i>
