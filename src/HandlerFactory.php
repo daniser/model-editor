@@ -5,30 +5,42 @@ declare(strict_types=1);
 namespace TTBooking\ModelEditor;
 
 use Illuminate\Contracts\Container\Container;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 use TTBooking\ModelEditor\Contracts\PropertyHandler;
 use TTBooking\ModelEditor\Entities\AuraProperty;
 use TTBooking\ModelEditor\Handlers\FallbackHandler;
 
 class HandlerFactory implements Contracts\HandlerFactory
 {
-    /** @var Collection<int, class-string<PropertyHandler>> */
+    /** @var Collection<class-string<PropertyHandler>, array<string, mixed>> */
     protected Collection $handlers;
 
     /**
-     * @param  list<class-string<PropertyHandler>>  $handlers
+     * @template TKey of int|class-string<PropertyHandler>
+     *
+     * @param  array<TKey, (TKey is int ? class-string<PropertyHandler> : array<string, mixed>)>  $handlers
      */
     public function __construct(protected Container $container, array $handlers)
     {
-        $this->handlers = collect($handlers);
+        // @phpstan-ignore-next-line
+        $this->handlers = collect($handlers)->mapWithKeys(
+            static fn ($value, $key) => is_int($key) ? [$value => []] : [$key => $value] // @phpstan-ignore-line
+        );
     }
 
     public function for(AuraProperty $property): PropertyHandler
     {
-        $handlerClass = $this->handlers->first(static fn (string $handlerClass) => $handlerClass::satisfies($property))
+        $handlerClass = $this->handlers->keys()->first(static fn (string $handlerClass) => $handlerClass::satisfies($property))
             ?? FallbackHandler::class;
 
+        $parameters = Arr::mapWithKeys(
+            $this->handlers[$handlerClass] ?? [],
+            static fn ($value, $key) => [Str::camel($key) => $value]
+        );
+
         /** @var PropertyHandler */
-        return $this->container->make($handlerClass, compact('property'));
+        return $this->container->make($handlerClass, [...compact('property'), ...$parameters]);
     }
 }

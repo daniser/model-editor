@@ -12,7 +12,7 @@ use TTBooking\ModelEditor\Entities\AuraProperty;
 
 class EnumHandler implements PropertyHandler
 {
-    public function __construct(public AuraProperty $property) {}
+    public function __construct(public AuraProperty $property, protected int $buttonLimit = 3) {}
 
     public static function satisfies(AuraProperty $property): bool
     {
@@ -21,10 +21,12 @@ class EnumHandler implements PropertyHandler
 
     public function component(): string
     {
-        /** @var BackedEnum $enumClass */
+        /** @var class-string<BackedEnum> $enumClass */
         $enumClass = $this->property->type->name;
 
-        return $enumClass::cases() > 3 ? 'model-editor::form.select' : 'model-editor::form.radio';
+        return count($enumClass::cases()) > $this->buttonLimit
+            ? 'model-editor::form.select'
+            : 'model-editor::form.radio';
     }
 
     public function handle(Model $model, Request $request): void
