@@ -28,6 +28,7 @@ class HandlerFactory implements Contracts\HandlerFactory
         $handlerClass = $this->handlers->first(static fn (string $handlerClass) => $handlerClass::satisfies($property))
             ?? FallbackHandler::class;
 
+        /** @var PropertyHandler */
         return $this->container->make($handlerClass, compact('property'));
     }
 }

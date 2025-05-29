@@ -10,26 +10,7 @@ parameters:
         - src
         - tests
 
-    level: max
+    configDirectories:
+        - config
 
-    ignoreErrors:
-        -
-            identifier: larastan.noEnvCallsOutsideOfConfig
-            path: config/*.php
-        -
-            identifier: trait.unused
-            path: src/Concerns/*.php
-        -
-            identifier: missingType.iterableValue
-            path: src/Facades/*.php
-        -
-            identifier: argument.type
-            path: src/*ServiceProvider.php
-        -
-            identifier: offsetAccess.nonOffsetAccessible
-            message: '#^Cannot access offset ''config'' on Illuminate\\Contracts\\Foundation\\Application\.$#'
-            path: src/*ServiceProvider.php
-        -
-            identifier: offsetAccess.nonOffsetAccessible
-            message: '#^Cannot access offset ''model-editor.\w+'' on mixed\.$#'
-            path: src/*ServiceProvider.php
+    level: max
