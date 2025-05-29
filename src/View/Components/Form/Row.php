@@ -9,10 +9,13 @@ use Illuminate\Contracts\Translation\Translator;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Str;
 use Illuminate\View\Component;
+use TTBooking\ModelEditor\Concerns\Translatable;
 use TTBooking\ModelEditor\Entities\AuraProperty;
 
 class Row extends Component
 {
+    use Translatable;
+
     public string $alias;
 
     public string $id;
@@ -27,11 +30,7 @@ class Row extends Component
         $this->alias = $this->factory()->getConsumableComponentData('alias'); // @phpstan-ignore assign.propertyType
 
         $this->id = $this->alias.'_'.Str::snake($property->variableName);
-
-        $transKey = sprintf('model-editor.%s.%s', $this->alias, Str::snake($property->variableName));
-        $this->description = $this->translator->has($transKey)
-            ? $this->translator->get($transKey)
-            : $property->description;
+        $this->description = $this->getPropertyDescription($this->alias, $property->variableName, $property->description);
     }
 
     /**

@@ -40,6 +40,7 @@ class ModelEditorServiceProvider extends ServiceProvider // implements Deferrabl
      */
     protected function registerResources(): void
     {
+        $this->loadTranslationsFrom(__DIR__.'/../lang', 'model-editor');
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'model-editor');
     }
 

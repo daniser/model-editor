@@ -13,11 +13,14 @@ use Illuminate\Support\Stringable;
 use Illuminate\View\Component;
 use InvalidArgumentException;
 use TTBooking\ModelEditor\Attributes\Alias;
+use TTBooking\ModelEditor\Concerns\Translatable;
 use TTBooking\ModelEditor\Entities\Aura;
 use TTBooking\ModelEditor\Facades\PropertyParser;
 
 class Form extends Component
 {
+    use Translatable;
+
     public Aura $aura;
 
     public string $alias;
@@ -34,13 +37,8 @@ class Form extends Component
         $this->aura = PropertyParser::parse($model);
         $this->alias = static::resolveAlias($model);
 
-        $this->summary = $this->translator->has($key = "model-editor.$this->alias._summary")
-            ? $this->translator->get($key)
-            : $this->aura->summary;
-
-        $this->description = $this->translator->has($key = "model-editor.$this->alias._description")
-            ? $this->translator->get($key)
-            : $this->aura->description;
+        $this->summary = $this->getPropertyDescription($this->alias, '_summary', $this->aura->summary);
+        $this->description = $this->getPropertyDescription($this->alias, '_description', $this->aura->description);
     }
 
     /**
