@@ -1,4 +1,4 @@
-<form {{ $attributes->only(['id', 'action']) }} method="POST">
+<form {{ $attributes->only(['id', 'action', 'enctype']) }} method="POST">
     @method('PUT')
     @if (! isset($title) || $title->isEmpty())
         <h4>{{ $summary }}</h4>
@@ -6,7 +6,7 @@
     @else
         {{ $title }}
     @endif
-    <table {{ $attributes->except(['id', 'action']) }}>
+    <table {{ $attributes->except(['id', 'action', 'enctype']) }}>
         @foreach ($aura->properties as $property)
             <x-model-editor::form.row :$property />
         @endforeach
