@@ -10,6 +10,7 @@ return [
         TTBooking\ModelEditor\Handlers\BooleanHandler::class,
         TTBooking\ModelEditor\Handlers\IntegerHandler::class,
         TTBooking\ModelEditor\Handlers\StringHandler::class,
+        TTBooking\ModelEditor\Handlers\EnumHandler::class,
         TTBooking\ModelEditor\Handlers\FileHandler::class,
     ],
 

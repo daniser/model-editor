@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace TTBooking\ModelEditor\Entities;
 
+use BackedEnum;
 use Closure;
 use InvalidArgumentException;
 use Stringable;
@@ -13,15 +14,23 @@ readonly class AuraType implements Stringable
     /** @var list<static> */
     public array $parameters;
 
+    /** @var list<int|string> */
+    public array $cases;
+
     /**
      * @param  list<static|string>  $parameters
      * @param  null|Closure(string): class-string  $typeResolver
      */
-    final public function __construct(public string $name, array $parameters = [], ?Closure $typeResolver = null)
-    {
+    final public function __construct(
+        public string $name,
+        array $parameters = [],
+        ?Closure $typeResolver = null
+    ) {
         $this->parameters = array_map(
             static fn (self|string $parameter) => static::parse($parameter, $typeResolver), $parameters
         );
+
+        $this->cases = is_subclass_of($name, BackedEnum::class) ? array_column($name::cases(), 'value') : [];
     }
 
     /**
