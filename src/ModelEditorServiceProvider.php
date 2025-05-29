@@ -89,8 +89,8 @@ class ModelEditorServiceProvider extends ServiceProvider // implements Deferrabl
         $this->app->singleton('property-parser.driver', static fn ($app) => $app['property-parser']->driver());
         $this->app->alias('property-parser.driver', PropertyParser::class);
 
-        $this->app->when(HandlerFactory::class)->needs('$handlers')->giveConfig('model-editor.type_handlers', []);
-        $this->app->alias('type-handler', Contracts\HandlerFactory::class);
+        $this->app->when(HandlerFactory::class)->needs('$handlers')->giveConfig('model-editor.property_handlers', []);
+        $this->app->alias('property-handler', Contracts\HandlerFactory::class);
     }
 
     /**
