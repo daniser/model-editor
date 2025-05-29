@@ -21,7 +21,10 @@ class EnumHandler implements PropertyHandler
 
     public function component(): string
     {
-        return 'model-editor::form.select';
+        /** @var BackedEnum $enumClass */
+        $enumClass = $this->property->type->name;
+
+        return $enumClass::cases() > 3 ? 'model-editor::form.select' : 'model-editor::form.radio';
     }
 
     public function handle(Model $model, Request $request): void
