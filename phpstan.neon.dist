@@ -6,7 +6,6 @@ includes:
 parameters:
     paths:
         - config
-        - routes
         - src
         - tests
 
