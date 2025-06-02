@@ -44,7 +44,7 @@ class PhpStanParser implements PropertyParser
 
         $context = (new ContextFactory)->createFromReflector($refClass);
         $typeResolver = new TypeResolver;
-        $resolver = static fn (string $type) => (string) $typeResolver->resolve($type, $context);
+        $resolver = static fn (string $type) => ltrim((string) $typeResolver->resolve($type, $context), '\\');
 
         $props = collect(['@property', '@property-read', '@property-write'])
             ->flatMap($phpDocNode->getPropertyTagValues(...))
