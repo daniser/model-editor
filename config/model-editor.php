@@ -11,6 +11,7 @@ return [
         TTBooking\ModelEditor\Handlers\IntegerHandler::class,
         TTBooking\ModelEditor\Handlers\StringHandler::class,
         TTBooking\ModelEditor\Handlers\EnumHandler::class,
+        TTBooking\ModelEditor\Handlers\ImageHandler::class,
         TTBooking\ModelEditor\Handlers\FileHandler::class,
     ],
 
