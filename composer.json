@@ -30,7 +30,10 @@
     "autoload": {
         "psr-4": {
             "TTBooking\\ModelEditor\\": "src/"
-        }
+        },
+        "files": [
+            "src/Support/functions.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {

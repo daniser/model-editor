@@ -9,15 +9,14 @@ use Illuminate\Contracts\Translation\Translator;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\View\Component;
-use TTBooking\ModelEditor\Concerns\ResolvesAliases;
-use TTBooking\ModelEditor\Concerns\Translatable;
 use TTBooking\ModelEditor\Entities\Aura;
 use TTBooking\ModelEditor\Facades\PropertyParser;
+use TTBooking\ModelEditor\Support\AliasResolver;
+
+use function TTBooking\ModelEditor\Support\prop_desc;
 
 class Form extends Component
 {
-    use ResolvesAliases, Translatable;
-
     public Aura $aura;
 
     public string $alias;
@@ -32,10 +31,10 @@ class Form extends Component
     public function __construct(protected Translator $translator, public Model $model)
     {
         $this->aura = PropertyParser::parse($model);
-        $this->alias = static::resolveAlias($model);
+        $this->alias = AliasResolver::resolveAlias($model);
 
-        $this->summary = $this->getPropertyDescription($this->alias, '_summary', $this->aura->summary);
-        $this->description = $this->getPropertyDescription($this->alias, '_description', $this->aura->description);
+        $this->summary = prop_desc($this->alias, '_summary', $this->aura->summary);
+        $this->description = prop_desc($this->alias, '_description', $this->aura->description);
     }
 
     /**

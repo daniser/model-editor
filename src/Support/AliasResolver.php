@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace TTBooking\ModelEditor\Concerns;
+namespace TTBooking\ModelEditor\Support;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Reflector;
@@ -12,13 +12,20 @@ use InvalidArgumentException;
 use TTBooking\ModelEditor\Attributes\Alias;
 use UnitEnum;
 
-trait ResolvesAliases
+class AliasResolver
 {
-    protected static function resolveAlias(object|string $objectOrClass): string
+    /**
+     * @param  object|class-string  $objectOrClass
+     */
+    public static function resolveAlias(object|string $objectOrClass, ?string $type = null): string
     {
-        return Reflector::getClassAttribute($objectOrClass, Alias::class)->alias ?? static::guessAlias($objectOrClass);
+        return Reflector::getClassAttribute($objectOrClass, Alias::class)->alias
+            ?? static::guessAlias($objectOrClass, $type);
     }
 
+    /**
+     * @param  object|class-string  $objectOrClass
+     */
     protected static function guessAlias(object|string $objectOrClass, ?string $type = null): string
     {
         $type ??= match (true) {
