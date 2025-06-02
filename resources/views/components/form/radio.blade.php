@@ -8,7 +8,7 @@
     @foreach ($property->type->name::cases() as $case)
         <label>
             <input type="radio" name="{{ $property->variableName }}" value="{{ enum_value($case) }}" @checked(enum_value($case) === enum_value($model->{$property->variableName})) />
-            {{ enum_desc($property->type->name, $case->name) }}
+            {{ enum_desc($case) }}
         </label>
     @endforeach
 </fieldset>

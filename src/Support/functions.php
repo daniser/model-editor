@@ -7,6 +7,7 @@ namespace TTBooking\ModelEditor\Support;
 use Closure;
 use Illuminate\Support\Str;
 use ReflectionEnumUnitCase;
+use UnitEnum;
 
 /**
  * @param  object|class-string  $objectOrClass
@@ -26,21 +27,20 @@ function prop_desc(object|string $objectOrClass, string $property, null|string|C
 }
 
 /**
- * @param  object|class-string  $objectOrClass
  * @param  null|string|Closure(): string  $fallback
  */
-function enum_desc(object|string $objectOrClass, string $case, null|string|Closure $fallback = null): string
+function enum_desc(UnitEnum $case, null|string|Closure $fallback = null): string
 {
     $translator = app('translator');
-    $alias = AliasResolver::resolveAlias($objectOrClass, 'Enum');
-    $appKey = sprintf('model-editor.enum.%s.%s', $alias, Str::snake($case));
-    $pkgKey = sprintf('model-editor::enum.%s.%s', $alias, Str::snake($case));
+    $alias = AliasResolver::resolveAlias($case, 'Enum');
+    $appKey = sprintf('model-editor.enum.%s.%s', $alias, Str::snake($case->name));
+    $pkgKey = sprintf('model-editor::enum.%s.%s', $alias, Str::snake($case->name));
 
-    $fallback ??= static function () use ($objectOrClass, $case) {
-        $refCase = new ReflectionEnumUnitCase($objectOrClass, $case);
+    $fallback ??= static function () use ($case) {
+        $refCase = new ReflectionEnumUnitCase($case, $case->name);
         $docComment = $refCase->getDocComment();
 
-        return $docComment ? trim($docComment, "/* \n\r\t\v\0") : Str::headline($case);
+        return $docComment ? trim($docComment, "/* \n\r\t\v\0") : Str::headline($case->name);
     };
 
     return $translator->has($appKey) ? $translator->get($appKey) : (
