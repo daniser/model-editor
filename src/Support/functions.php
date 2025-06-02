@@ -40,7 +40,7 @@ function enum_desc(object|string $objectOrClass, string $case, null|string|Closu
         $refCase = new ReflectionEnumUnitCase($objectOrClass, $case);
         $docComment = $refCase->getDocComment();
 
-        return $docComment ?: Str::headline($case);
+        return $docComment ? trim($docComment, "/* \n\r\t\v\0") : Str::headline($case);
     };
 
     return $translator->has($appKey) ? $translator->get($appKey) : (
