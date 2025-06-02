@@ -33,8 +33,8 @@ class Form extends Component
         $this->aura = PropertyParser::parse($model);
         $this->alias = AliasResolver::resolveAlias($model);
 
-        $this->summary = prop_desc($this->alias, '_summary', $this->aura->summary);
-        $this->description = prop_desc($this->alias, '_description', $this->aura->description);
+        $this->summary = prop_desc($model, '_summary', $this->aura->summary);
+        $this->description = prop_desc($model, '_description', $this->aura->description);
     }
 
     /**
