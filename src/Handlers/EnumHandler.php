@@ -7,6 +7,7 @@ namespace TTBooking\ModelEditor\Handlers;
 use BackedEnum;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
+use IntBackedEnum;
 use TTBooking\ModelEditor\Contracts\PropertyHandler;
 use TTBooking\ModelEditor\Entities\AuraProperty;
 
@@ -34,8 +35,9 @@ class EnumHandler implements PropertyHandler
         /** @var class-string<BackedEnum> $enumClass */
         $enumClass = $this->property->type->name;
 
-        // @phpstan-ignore-next-line
-        $model->{$this->property->variableName} = $enumClass::from($request->{$this->property->variableName});
+        $model->{$this->property->variableName} = is_subclass_of($enumClass, IntBackedEnum::class)
+            ? $enumClass::from($request->integer($this->property->variableName))
+            : $enumClass::from((string) $request->string($this->property->variableName));
     }
 
     public function validate(Request $request): bool
