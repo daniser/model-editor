@@ -16,6 +16,7 @@
     ],
     "require": {
         "php": "^8.2",
+        "intervention/image-laravel": "^1.5",
         "laravel/framework": "^12.11",
         "spatie/image": "^3.0"
     },

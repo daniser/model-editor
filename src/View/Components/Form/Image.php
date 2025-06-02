@@ -9,7 +9,9 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\Component;
-use Spatie\Image\Image as SpatieImage;
+// use Illuminate\Filesystem\Filesystem;
+use Intervention\Image\Laravel\Facades\Image as InterventionImage;
+// use Spatie\Image\Image as SpatieImage;
 use TTBooking\ModelEditor\Entities\AuraProperty;
 
 class Image extends Component
@@ -26,8 +28,10 @@ class Image extends Component
         $this->model = $this->factory()->getConsumableComponentData('model'); // @phpstan-ignore assign.propertyType
 
         $path = (string) $this->model->{$this->property->variableName};
-        if (Storage::has($path)) {
-            $this->preview = SpatieImage::load($path)->width(100)->height(100)->base64();
+        if ($path && Storage::has($path)) {
+            // Storage::get($path);
+            $this->preview = InterventionImage::read($path)->resize(100, 100)->encode()->toDataUri();
+            // $this->preview = SpatieImage::load($path)->width(100)->height(100)->base64();
         }
     }
 
