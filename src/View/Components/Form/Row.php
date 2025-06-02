@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace TTBooking\ModelEditor\View\Components\Form;
 
 use Closure;
-use Illuminate\Contracts\Translation\Translator;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
@@ -27,7 +26,7 @@ class Row extends Component
     /**
      * Create a new component instance.
      */
-    public function __construct(protected Translator $translator, public AuraProperty $property)
+    public function __construct(public AuraProperty $property)
     {
         $this->model = $this->factory()->getConsumableComponentData('model'); // @phpstan-ignore assign.propertyType
         $this->alias = $this->factory()->getConsumableComponentData('alias'); // @phpstan-ignore assign.propertyType

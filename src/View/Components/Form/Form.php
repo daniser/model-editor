@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace TTBooking\ModelEditor\View\Components\Form;
 
 use Closure;
-use Illuminate\Contracts\Translation\Translator;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\View\Component;
@@ -28,7 +27,7 @@ class Form extends Component
     /**
      * Create a new component instance.
      */
-    public function __construct(protected Translator $translator, public Model $model)
+    public function __construct(public Model $model)
     {
         $this->aura = PropertyParser::parse($model);
         $this->alias = AliasResolver::resolveAlias($model);
