@@ -32,8 +32,8 @@ class HandlerFactory implements Contracts\HandlerFactory
 
     public function for(AuraProperty $property): PropertyHandler
     {
-        $handlerClass = $this->handlers->keys()->first(static fn (string $handlerClass) => $handlerClass::satisfies($property))
-            ?? FallbackHandler::class;
+        /** @var class-string<PropertyHandler> $handlerClass */
+        $handlerClass = $this->handlers->keys()->first->satisfies($property) ?? FallbackHandler::class; // @phpstan-ignore-line
 
         $parameters = Arr::mapWithKeys(
             $this->handlers[$handlerClass] ?? [],
