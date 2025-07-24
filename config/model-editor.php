@@ -9,6 +9,7 @@ return [
     'property_handlers' => [
         TTBooking\ModelEditor\Handlers\BooleanHandler::class,
         TTBooking\ModelEditor\Handlers\IntegerHandler::class,
+        TTBooking\ModelEditor\Handlers\FloatHandler::class,
         TTBooking\ModelEditor\Handlers\StringHandler::class,
         TTBooking\ModelEditor\Handlers\EnumHandler::class,
         TTBooking\ModelEditor\Handlers\ImageHandler::class,
