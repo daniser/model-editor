@@ -61,6 +61,10 @@ class ModelEditorServiceProvider extends ServiceProvider // implements Deferrabl
         $this->publishes([
             __DIR__.'/../config/model-editor.php' => $this->app->configPath('model-editor.php'),
         ], ['model-editor-config', 'model-editor', 'config']);
+
+        $this->publishes([
+            __DIR__.'/../resources/views' => $this->app->resourcePath('views/vendor/model-editor'),
+        ], ['model-editor-views', 'model-editor', 'views']);
     }
 
     /**
