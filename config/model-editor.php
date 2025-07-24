@@ -12,6 +12,7 @@ return [
         TTBooking\ModelEditor\Handlers\FloatHandler::class,
         TTBooking\ModelEditor\Handlers\StringHandler::class,
         TTBooking\ModelEditor\Handlers\EnumHandler::class,
+        TTBooking\ModelEditor\Handlers\ColorHandler::class,
         TTBooking\ModelEditor\Handlers\ImageHandler::class,
         TTBooking\ModelEditor\Handlers\FileHandler::class,
     ],
