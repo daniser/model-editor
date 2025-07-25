@@ -15,7 +15,7 @@ class FloatHandler implements PropertyHandler
 
     public static function satisfies(AuraProperty $property): bool
     {
-        return in_array($property->type->name, ['float', 'double', 'real'], true);
+        return collect(['float', 'double', 'real'])->contains($property->type->contains(...));
     }
 
     public function component(): string

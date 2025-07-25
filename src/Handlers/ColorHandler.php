@@ -16,7 +16,7 @@ class ColorHandler implements PropertyHandler
 
     public static function satisfies(AuraProperty $property): bool
     {
-        return is_a($property->type->name, Color::class, true);
+        return $property->type->contains(Color::class);
     }
 
     public function component(): string

@@ -15,7 +15,7 @@ class IntegerHandler implements PropertyHandler
 
     public static function satisfies(AuraProperty $property): bool
     {
-        return in_array($property->type->name, ['int', 'integer'], true);
+        return collect(['int', 'integer'])->contains($property->type->contains(...));
     }
 
     public function component(): string

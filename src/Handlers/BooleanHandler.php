@@ -15,7 +15,7 @@ class BooleanHandler implements PropertyHandler
 
     public static function satisfies(AuraProperty $property): bool
     {
-        return in_array($property->type->name, ['bool', 'boolean'], true);
+        return collect(['bool', 'boolean'])->contains($property->type->contains(...));
     }
 
     public function component(): string

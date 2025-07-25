@@ -17,6 +17,15 @@ readonly class AuraNamedType extends AuraType
         parent::__construct($nullable);
     }
 
+    public function contains(string $type): bool
+    {
+        if (class_exists($this->name)) {
+            return is_a($type, $this->name, true);
+        }
+
+        return $type === $this->name || $type === (string) $this;
+    }
+
     public function __toString(): string
     {
         return $this->parameters ? sprintf('%s<%s>', $this->name, implode(', ', $this->parameters)) : $this->name;

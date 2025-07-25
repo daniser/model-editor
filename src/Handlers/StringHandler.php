@@ -15,7 +15,7 @@ class StringHandler implements PropertyHandler
 
     public static function satisfies(AuraProperty $property): bool
     {
-        return in_array($property->type->name, ['string', 'non-empty-string', 'class-string'], true);
+        return collect(['string', 'non-empty-string', 'class-string'])->contains($property->type->contains(...));
     }
 
     public function component(): string

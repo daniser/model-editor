@@ -7,7 +7,6 @@ namespace TTBooking\ModelEditor\Handlers;
 use BackedEnum;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
-use IntBackedEnum;
 use ReflectionEnum;
 use TTBooking\ModelEditor\Contracts\PropertyHandler;
 use TTBooking\ModelEditor\Entities\AuraProperty;

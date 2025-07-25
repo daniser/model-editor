@@ -17,6 +17,17 @@ readonly class AuraCompoundType extends AuraType
         parent::__construct($nullable);
     }
 
+    public function contains(string $type): bool
+    {
+        if ($type === (string) $this) {
+            return true;
+        }
+
+        $method = $this->junction === '|' ? 'contains' : 'every';
+
+        return collect($this->types)->$method(static fn (AuraType $auraType) => $auraType->contains($type));
+    }
+
     public function __toString(): string
     {
         return implode($this->junction, array_map(static function (AuraType $type) {
