@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace TTBooking\ModelEditor\Parsers;
 
+use Closure;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use phpDocumentor\Reflection\TypeResolver;
@@ -11,6 +12,12 @@ use phpDocumentor\Reflection\Types\ContextFactory;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocChildNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTextNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PropertyTagValueNode;
+use PHPStan\PhpDocParser\Ast\Type\ConstTypeNode;
+use PHPStan\PhpDocParser\Ast\Type\GenericTypeNode;
+use PHPStan\PhpDocParser\Ast\Type\IdentifierTypeNode;
+use PHPStan\PhpDocParser\Ast\Type\IntersectionTypeNode;
+use PHPStan\PhpDocParser\Ast\Type\TypeNode;
+use PHPStan\PhpDocParser\Ast\Type\UnionTypeNode;
 use PHPStan\PhpDocParser\Lexer\Lexer;
 use PHPStan\PhpDocParser\Parser\ConstExprParser;
 use PHPStan\PhpDocParser\Parser\PhpDocParser;
@@ -20,8 +27,11 @@ use PHPStan\PhpDocParser\ParserConfig;
 use ReflectionClass;
 use TTBooking\ModelEditor\Contracts\PropertyParser;
 use TTBooking\ModelEditor\Entities\Aura;
+use TTBooking\ModelEditor\Entities\AuraCompoundType;
+use TTBooking\ModelEditor\Entities\AuraNamedType;
 use TTBooking\ModelEditor\Entities\AuraProperty;
 use TTBooking\ModelEditor\Entities\AuraType;
+use TTBooking\ModelEditor\Exceptions\ParserException;
 
 class PhpStanParser implements PropertyParser
 {
@@ -51,7 +61,7 @@ class PhpStanParser implements PropertyParser
             ->map(fn (PropertyTagValueNode $property) => new AuraProperty(
                 readable: true,
                 writable: true,
-                type: AuraType::parse($property->type, $resolver),
+                type: $this->parseType($property->type, $resolver),
                 variableName: ltrim($property->propertyName, '$'),
                 description: $property->description,
             ));
@@ -63,6 +73,43 @@ class PhpStanParser implements PropertyParser
             summary: $summary,
             description: $description,
             properties: $props->all(),
+        );
+    }
+
+    /**
+     * @param  null|Closure(string): string  $typeResolver
+     *
+     * @throws ParserException
+     */
+    protected function parseType(TypeNode $type, ?Closure $typeResolver = null): AuraType
+    {
+        $typeResolver ??= static fn (string $type) => $type;
+
+        return match (true) {
+            $type instanceof UnionTypeNode => new AuraCompoundType($this->parseTypes($type->types, $typeResolver)),
+            $type instanceof IntersectionTypeNode => new AuraCompoundType($this->parseTypes($type->types, $typeResolver), '&'),
+            $type instanceof IdentifierTypeNode => new AuraNamedType($typeResolver($type->name)),
+            $type instanceof GenericTypeNode => new AuraNamedType(
+                $typeResolver($type->type->name),
+                $this->parseTypes($type->genericTypes, $typeResolver)
+            ),
+            $type instanceof ConstTypeNode => new AuraNamedType((string) $type->constExpr),
+            default => throw new ParserException('Unsupported node type.'),
+        };
+    }
+
+    /**
+     * @param  array<TypeNode>  $types
+     * @param  null|Closure(string): string  $typeResolver
+     * @return list<AuraType>
+     *
+     * @throws ParserException
+     */
+    protected function parseTypes(array $types, ?Closure $typeResolver = null): array
+    {
+        return array_map(
+            fn (TypeNode $type) => $this->parseType($type, $typeResolver),
+            array_values($types)
         );
     }
 }
