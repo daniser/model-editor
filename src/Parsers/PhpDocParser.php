@@ -4,16 +4,27 @@ declare(strict_types=1);
 
 namespace TTBooking\ModelEditor\Parsers;
 
+use Illuminate\Support\Str;
 use phpDocumentor\Reflection\DocBlock\Tags\Property;
 use phpDocumentor\Reflection\DocBlock\Tags\PropertyRead;
 use phpDocumentor\Reflection\DocBlock\Tags\PropertyWrite;
 use phpDocumentor\Reflection\DocBlockFactory;
+use phpDocumentor\Reflection\Type;
+use phpDocumentor\Reflection\Types\AbstractList;
+use phpDocumentor\Reflection\Types\ClassString;
+use phpDocumentor\Reflection\Types\Collection;
+use phpDocumentor\Reflection\Types\Compound;
 use phpDocumentor\Reflection\Types\ContextFactory;
+use phpDocumentor\Reflection\Types\Intersection;
+use phpDocumentor\Reflection\Types\Nullable;
 use ReflectionClass;
 use TTBooking\ModelEditor\Contracts\PropertyParser;
 use TTBooking\ModelEditor\Entities\Aura;
+use TTBooking\ModelEditor\Entities\AuraIntersectionType;
+use TTBooking\ModelEditor\Entities\AuraNamedType;
 use TTBooking\ModelEditor\Entities\AuraProperty;
 use TTBooking\ModelEditor\Entities\AuraType;
+use TTBooking\ModelEditor\Entities\AuraUnionType;
 
 class PhpDocParser implements PropertyParser
 {
@@ -29,8 +40,8 @@ class PhpDocParser implements PropertyParser
             ->map(fn (Property|PropertyRead|PropertyWrite $property) => new AuraProperty(
                 readable: $property instanceof Property || $property instanceof PropertyRead,
                 writable: $property instanceof Property || $property instanceof PropertyWrite,
-                type: AuraType::parse($property->getType()),
-                variableName: $property->getVariableName(),
+                type: $this->parseType($property->getType()),
+                variableName: (string) $property->getVariableName(),
                 description: (string) $property->getDescription(),
             ));
 
@@ -39,5 +50,37 @@ class PhpDocParser implements PropertyParser
             description: (string) $docblock->getDescription(),
             properties: $props->all(),
         );
+    }
+
+    protected function parseType(?Type $type): AuraType
+    {
+        return match (true) {
+            is_null($type) => new AuraNamedType('mixed', nullable: true),
+            $type instanceof Nullable => new AuraUnionType([$this->parseType($type->getActualType()), new AuraNamedType('null')]),
+            $type instanceof Compound => new AuraUnionType($this->parseTypes(iterator_to_array($type, false))),
+            $type instanceof Intersection => new AuraIntersectionType($this->parseTypes(iterator_to_array($type, false))),
+            $type instanceof ClassString => new AuraNamedType(
+                'class-string',
+                (null !== $fqsen = $type->getFqsen()) ? [new AuraNamedType((string) $fqsen)] : []
+            ),
+            $type instanceof Collection => new AuraNamedType(
+                (string) ($type->getFqsen() ?? 'object'),
+                $this->parseTypes([$type->getKeyType(), $type->getValueType()]),
+            ),
+            $type instanceof AbstractList => new AuraNamedType(
+                Str::kebab(rtrim($type::class, '_')),
+                $this->parseTypes([$type->getKeyType(), $type->getValueType()]),
+            ),
+            default => new AuraNamedType((string) $type),
+        };
+    }
+
+    /**
+     * @param  list<Type>  $types
+     * @return list<AuraType>
+     */
+    protected function parseTypes(array $types): array
+    {
+        return array_map(fn (Type $type) => $this->parseType($type), $types);
     }
 }
