@@ -2,7 +2,7 @@
     @method('PUT')
     @if (! isset($title) || $title->isEmpty())
         <h4>{{ $summary }}</h4>
-        <h5>{{ $description }}</h5>
+        <h5>{!! Str::markdown($description) !!}</h5>
     @else
         {{ $title }}
     @endif
