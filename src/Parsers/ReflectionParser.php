@@ -12,10 +12,11 @@ use ReflectionType;
 use ReflectionUnionType;
 use TTBooking\ModelEditor\Contracts\PropertyParser;
 use TTBooking\ModelEditor\Entities\Aura;
-use TTBooking\ModelEditor\Entities\AuraCompoundType;
+use TTBooking\ModelEditor\Entities\AuraIntersectionType;
 use TTBooking\ModelEditor\Entities\AuraNamedType;
 use TTBooking\ModelEditor\Entities\AuraProperty;
 use TTBooking\ModelEditor\Entities\AuraType;
+use TTBooking\ModelEditor\Entities\AuraUnionType;
 use TTBooking\ModelEditor\Exceptions\ParserException;
 
 class ReflectionParser implements PropertyParser
@@ -44,8 +45,8 @@ class ReflectionParser implements PropertyParser
         return match (true) {
             is_null($refType) => new AuraNamedType('mixed', nullable: true),
             $refType instanceof ReflectionNamedType => new AuraNamedType($refType->getName(), nullable: $refType->allowsNull()),
-            $refType instanceof ReflectionUnionType => new AuraCompoundType($this->parseTypes($refType->getTypes()), nullable: $refType->allowsNull()),
-            $refType instanceof ReflectionIntersectionType => new AuraCompoundType($this->parseTypes($refType->getTypes()), '&', $refType->allowsNull()),
+            $refType instanceof ReflectionUnionType => new AuraUnionType($this->parseTypes($refType->getTypes()), nullable: $refType->allowsNull()),
+            $refType instanceof ReflectionIntersectionType => new AuraIntersectionType($this->parseTypes($refType->getTypes()), $refType->allowsNull()),
             default => throw new ParserException('Unsupported node type.'),
         };
     }

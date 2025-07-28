@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace TTBooking\ModelEditor\Entities;
 
-readonly class AuraCompoundType extends AuraType
+abstract readonly class AuraCompoundType extends AuraType
 {
     /**
      * @param  list<AuraType>  $types
      */
-    final public function __construct(
+    public function __construct(
         public array $types,
         public string $junction = '|',
         bool $nullable = false,
@@ -31,7 +31,7 @@ readonly class AuraCompoundType extends AuraType
     public function __toString(): string
     {
         return implode($this->junction, array_map(static function (AuraType $type) {
-            return $type instanceof AuraCompoundType ? "($type)" : $type;
+            return $type instanceof static ? "($type)" : $type;
         }, $this->types));
     }
 }

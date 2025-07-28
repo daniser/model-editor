@@ -26,10 +26,11 @@ use PHPStan\PhpDocParser\ParserConfig;
 use ReflectionClass;
 use TTBooking\ModelEditor\Contracts\PropertyParser;
 use TTBooking\ModelEditor\Entities\Aura;
-use TTBooking\ModelEditor\Entities\AuraCompoundType;
+use TTBooking\ModelEditor\Entities\AuraIntersectionType;
 use TTBooking\ModelEditor\Entities\AuraNamedType;
 use TTBooking\ModelEditor\Entities\AuraProperty;
 use TTBooking\ModelEditor\Entities\AuraType;
+use TTBooking\ModelEditor\Entities\AuraUnionType;
 use TTBooking\ModelEditor\Exceptions\ParserException;
 
 class PhpStanParser implements PropertyParser
@@ -85,8 +86,8 @@ class PhpStanParser implements PropertyParser
         $typeResolver ??= static fn (string $type) => $type;
 
         return match (true) {
-            $type instanceof UnionTypeNode => new AuraCompoundType($this->parseTypes($type->types, $typeResolver)),
-            $type instanceof IntersectionTypeNode => new AuraCompoundType($this->parseTypes($type->types, $typeResolver), '&'),
+            $type instanceof UnionTypeNode => new AuraUnionType($this->parseTypes($type->types, $typeResolver)),
+            $type instanceof IntersectionTypeNode => new AuraIntersectionType($this->parseTypes($type->types, $typeResolver)),
             $type instanceof IdentifierTypeNode => new AuraNamedType($typeResolver($type->name)),
             $type instanceof GenericTypeNode => new AuraNamedType(
                 $typeResolver($type->type->name),
