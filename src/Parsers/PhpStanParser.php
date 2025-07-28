@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace TTBooking\ModelEditor\Parsers;
 
 use Closure;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use phpDocumentor\Reflection\TypeResolver;
 use phpDocumentor\Reflection\Types\ContextFactory;
@@ -35,9 +34,9 @@ use TTBooking\ModelEditor\Exceptions\ParserException;
 
 class PhpStanParser implements PropertyParser
 {
-    public function parse(Model|string $model): Aura
+    public function parse(object|string $objectOrClass): Aura
     {
-        $refClass = new ReflectionClass($model);
+        $refClass = new ReflectionClass($objectOrClass);
 
         if (! $docComment = $refClass->getDocComment()) {
             return new Aura;

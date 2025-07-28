@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace TTBooking\ModelEditor;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Manager;
 use TTBooking\ModelEditor\Contracts\PropertyParser;
 use TTBooking\ModelEditor\Entities\Aura;
 use TTBooking\ModelEditor\Parsers\PhpDocParser;
 use TTBooking\ModelEditor\Parsers\PhpStanParser;
+use TTBooking\ModelEditor\Parsers\ReflectionParser;
 
 class PropertyParserManager extends Manager implements PropertyParser
 {
@@ -23,9 +23,14 @@ class PropertyParserManager extends Manager implements PropertyParser
         return $this->container->make(PhpStanParser::class);
     }
 
-    public function parse(Model|string $model): Aura
+    public function createReflectionParser(): ReflectionParser
     {
-        return $this->driver()->parse($model);
+        return $this->container->make(ReflectionParser::class);
+    }
+
+    public function parse(object|string $objectOrClass): Aura
+    {
+        return $this->driver()->parse($objectOrClass);
     }
 
     public function getDefaultDriver(): string

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace TTBooking\ModelEditor\Parsers;
 
-use Illuminate\Database\Eloquent\Model;
 use phpDocumentor\Reflection\DocBlock\Tags\Property;
 use phpDocumentor\Reflection\DocBlock\Tags\PropertyRead;
 use phpDocumentor\Reflection\DocBlock\Tags\PropertyWrite;
@@ -18,10 +17,10 @@ use TTBooking\ModelEditor\Entities\AuraType;
 
 class PhpDocParser implements PropertyParser
 {
-    public function parse(Model|string $model): Aura
+    public function parse(object|string $objectOrClass): Aura
     {
         $docblock = DocBlockFactory::createInstance()->create(
-            $refClass = new ReflectionClass($model),
+            $refClass = new ReflectionClass($objectOrClass),
             (new ContextFactory)->createFromReflector($refClass)
         );
 

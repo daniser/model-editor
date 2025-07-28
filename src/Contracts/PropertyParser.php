@@ -4,13 +4,12 @@ declare(strict_types=1);
 
 namespace TTBooking\ModelEditor\Contracts;
 
-use Illuminate\Database\Eloquent\Model;
 use TTBooking\ModelEditor\Entities\Aura;
 
 interface PropertyParser
 {
     /**
-     * @param  Model|class-string<Model>  $model
+     * @param  object|class-string  $objectOrClass
      */
-    public function parse(Model|string $model): Aura;
+    public function parse(object|string $objectOrClass): Aura;
 }
