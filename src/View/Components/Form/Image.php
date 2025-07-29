@@ -6,7 +6,6 @@ namespace TTBooking\ModelEditor\View\Components\Form;
 
 use Closure;
 use Illuminate\Contracts\View\View;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\Component;
 use Intervention\Image\Laravel\Facades\Image as InterventionImage;
@@ -14,7 +13,7 @@ use TTBooking\ModelEditor\Entities\AuraProperty;
 
 class Image extends Component
 {
-    public Model $model;
+    public object $object;
 
     public ?string $preview = null;
 
@@ -23,9 +22,9 @@ class Image extends Component
      */
     public function __construct(public AuraProperty $property)
     {
-        $this->model = $this->factory()->getConsumableComponentData('model'); // @phpstan-ignore assign.propertyType
+        $this->object = $this->factory()->getConsumableComponentData('object'); // @phpstan-ignore assign.propertyType
 
-        $path = (string) $this->model->{$this->property->variableName};
+        $path = (string) $this->object->{$this->property->variableName};
         if ($path && Storage::has($path)) {
             $this->preview = InterventionImage::read(Storage::get($path))->scaleDown(100, 100)->encode()->toDataUri();
         }

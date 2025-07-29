@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace TTBooking\ModelEditor\Handlers;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use TTBooking\ModelEditor\Contracts\PropertyHandler;
 use TTBooking\ModelEditor\Entities\AuraProperty;
@@ -23,9 +22,9 @@ class IntegerHandler implements PropertyHandler
         return 'model-editor::form.number';
     }
 
-    public function handle(Model $model, Request $request): void
+    public function handle(object $object, Request $request): void
     {
-        $model->{$this->property->variableName} = (int) $request->{$this->property->variableName}; // @phpstan-ignore cast.int
+        $object->{$this->property->variableName} = (int) $request->{$this->property->variableName}; // @phpstan-ignore cast.int
     }
 
     public function validate(Request $request): bool

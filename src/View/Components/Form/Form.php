@@ -6,7 +6,6 @@ namespace TTBooking\ModelEditor\View\Components\Form;
 
 use Closure;
 use Illuminate\Contracts\View\View;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\View\Component;
 use TTBooking\ModelEditor\Entities\Aura;
 use TTBooking\ModelEditor\Facades\PropertyParser;
@@ -27,13 +26,13 @@ class Form extends Component
     /**
      * Create a new component instance.
      */
-    public function __construct(public Model $model)
+    public function __construct(public object $object)
     {
-        $this->aura = PropertyParser::parse($model);
-        $this->alias = AliasResolver::resolveAlias($model);
+        $this->aura = PropertyParser::parse($object);
+        $this->alias = AliasResolver::resolveAlias($object);
 
-        $this->summary = prop_desc($model, '_summary', $this->aura->summary);
-        $this->description = prop_desc($model, '_description', $this->aura->description);
+        $this->summary = prop_desc($object, '_summary', $this->aura->summary);
+        $this->description = prop_desc($object, '_description', $this->aura->description);
     }
 
     /**

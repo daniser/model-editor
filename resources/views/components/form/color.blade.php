@@ -1,4 +1,4 @@
-@aware(['model'])
+@aware(['object'])
 @props(['property'])
 
-<input {{ $attributes }} type="color" name="{{ $property->variableName }}" value="{{ $model->{$property->variableName} }}" @readonly(! $property->writable) />
+<input {{ $attributes }} type="color" name="{{ $property->variableName }}" value="{{ $object->{$property->variableName} }}" @readonly(! $property->writable) />

@@ -4,12 +4,11 @@ declare(strict_types=1);
 
 namespace TTBooking\ModelEditor\Facades;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Facade;
 
 /**
- * @method static Model update(Request $request, Model $model)
+ * @method static object update(Request $request, object $object)
  *
  * @see \TTBooking\ModelEditor\ActionHandler
  */

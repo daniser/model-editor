@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace TTBooking\ModelEditor\Handlers;
 
 use BackedEnum;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use ReflectionEnum;
 use TTBooking\ModelEditor\Contracts\PropertyHandler;
@@ -30,14 +29,14 @@ class EnumHandler implements PropertyHandler
             : 'model-editor::form.radio';
     }
 
-    public function handle(Model $model, Request $request): void
+    public function handle(object $object, Request $request): void
     {
         /** @var class-string<BackedEnum> $enumClass */
         $enumClass = $this->property->type->name;
 
         $intBacked = (new ReflectionEnum($enumClass))->getBackingType()?->getName() === 'int';
 
-        $model->{$this->property->variableName} = $intBacked
+        $object->{$this->property->variableName} = $intBacked
             ? $enumClass::from($request->integer($this->property->variableName))
             : $enumClass::from((string) $request->string($this->property->variableName));
     }

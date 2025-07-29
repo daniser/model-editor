@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace TTBooking\ModelEditor\Handlers;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use TTBooking\ModelEditor\Contracts\PropertyHandler;
 use TTBooking\ModelEditor\Entities\AuraProperty;
@@ -23,9 +22,9 @@ class FloatHandler implements PropertyHandler
         return 'model-editor::form.decimal';
     }
 
-    public function handle(Model $model, Request $request): void
+    public function handle(object $object, Request $request): void
     {
-        $model->{$this->property->variableName} = (float) $request->{$this->property->variableName}; // @phpstan-ignore cast.double
+        $object->{$this->property->variableName} = (float) $request->{$this->property->variableName}; // @phpstan-ignore cast.double
     }
 
     public function validate(Request $request): bool

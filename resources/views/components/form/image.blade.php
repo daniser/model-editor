@@ -1,4 +1,4 @@
-<img src="{{ $preview }}" alt="{{ basename($model->{$property->variableName}) }}" title="{{ basename($model->{$property->variableName}) }}" />
+<img src="{{ $preview }}" alt="{{ basename($object->{$property->variableName}) }}" title="{{ basename($object->{$property->variableName}) }}" />
 <input {{ $attributes }}
     type="file"
     name="{{ $property->variableName }}"

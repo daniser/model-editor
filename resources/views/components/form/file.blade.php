@@ -1,4 +1,4 @@
-@aware(['model'])
+@aware(['object'])
 @props(['property'])
 
 <input {{ $attributes }}

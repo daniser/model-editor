@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace TTBooking\ModelEditor\Handlers;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use TTBooking\ModelEditor\Contracts\PropertyHandler;
 use TTBooking\ModelEditor\Entities\AuraProperty;
@@ -24,9 +23,9 @@ class ColorHandler implements PropertyHandler
         return 'model-editor::form.color';
     }
 
-    public function handle(Model $model, Request $request): void
+    public function handle(object $object, Request $request): void
     {
-        $model->{$this->property->variableName} = $request->{$this->property->variableName};
+        $object->{$this->property->variableName} = $request->{$this->property->variableName};
     }
 
     public function validate(Request $request): bool

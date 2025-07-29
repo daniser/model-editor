@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace TTBooking\ModelEditor\Handlers;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use TTBooking\ModelEditor\Contracts\PropertyHandler;
 use TTBooking\ModelEditor\Entities\AuraProperty;
@@ -25,10 +24,10 @@ class FileHandler implements PropertyHandler
         return 'model-editor::form.file';
     }
 
-    public function handle(Model $model, Request $request): void
+    public function handle(object $object, Request $request): void
     {
-        $model->{$this->property->variableName} = $request->file($this->property->variableName)
-            ->store($model->getKey().'/'.$this->property->variableName);
+        $object->{$this->property->variableName} = $request->file($this->property->variableName)
+            ->store($object->getKey().'/'.$this->property->variableName);
     }
 
     public function validate(Request $request): bool

@@ -6,7 +6,6 @@ namespace TTBooking\ModelEditor\View\Components\Form;
 
 use Closure;
 use Illuminate\Contracts\View\View;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Illuminate\View\Component;
 use TTBooking\ModelEditor\Entities\AuraProperty;
@@ -15,7 +14,7 @@ use function TTBooking\ModelEditor\Support\prop_desc;
 
 class Row extends Component
 {
-    public Model $model;
+    public object $object;
 
     public string $alias;
 
@@ -28,11 +27,11 @@ class Row extends Component
      */
     public function __construct(public AuraProperty $property)
     {
-        $this->model = $this->factory()->getConsumableComponentData('model'); // @phpstan-ignore assign.propertyType
+        $this->object = $this->factory()->getConsumableComponentData('object'); // @phpstan-ignore assign.propertyType
         $this->alias = $this->factory()->getConsumableComponentData('alias'); // @phpstan-ignore assign.propertyType
 
         $this->id = $this->alias.'_'.Str::snake($property->variableName);
-        $this->description = prop_desc($this->model, $property->variableName, $property->description);
+        $this->description = prop_desc($this->object, $property->variableName, $property->description);
     }
 
     /**
