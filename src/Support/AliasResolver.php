@@ -37,7 +37,7 @@ class AliasResolver
         return (string) str(is_object($objectOrClass) ? get_class($objectOrClass) : $objectOrClass)->whenStartsWith(
             $namespace = app()->getNamespace().Str::plural($type).'\\',
             static fn (Stringable $class) => $class->after($namespace)->replace('\\', '')->snake(),
-            static fn () => throw new InvalidArgumentException("$type alias cannot be determined.")
+            static fn (Stringable $class) => $class->replace('\\', '')->snake(),
         );
     }
 }
