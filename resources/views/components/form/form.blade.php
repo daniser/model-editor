@@ -1,7 +1,7 @@
 <form {{ $attributes->only(['id', 'action', 'enctype']) }} method="POST">
     @method('PUT')
     @if (! isset($title) || $title->isEmpty())
-        <h4>{{ $summary }}</h4>
+        <h4>{!! Str::inlineMarkdown($summary) !!}</h4>
         <h5>{!! Str::markdown($description) !!}</h5>
     @else
         {{ $title }}
