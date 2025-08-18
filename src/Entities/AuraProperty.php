@@ -14,6 +14,8 @@ readonly class AuraProperty implements Stringable
         public AuraType $type,
         public string $variableName,
         public string $description,
+        public bool $hasDefaultValue = false,
+        public mixed $defaultValue = null,
     ) {}
 
     public function __toString(): string

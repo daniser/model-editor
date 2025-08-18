@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace TTBooking\ModelEditor\Parsers;
 
+use ArgumentCountError;
 use Closure;
 use Illuminate\Support\Arr;
 use phpDocumentor\Reflection\TypeResolver;
@@ -39,6 +40,12 @@ class PhpStanParser implements PropertyParser
     {
         $refClass = new ReflectionClass($objectOrClass);
 
+        try {
+            $defaultObject = $refClass->newInstance();
+        } catch (ArgumentCountError) {
+            $defaultObject = $refClass->newInstanceWithoutConstructor();
+        }
+
         if (! $docComment = $refClass->getDocComment()) {
             return new Aura;
         }
@@ -62,8 +69,10 @@ class PhpStanParser implements PropertyParser
                 readable: true,
                 writable: true,
                 type: $this->parseType($property->type, $resolver),
-                variableName: ltrim($property->propertyName, '$'),
+                variableName: $varName = ltrim($property->propertyName, '$'),
                 description: $property->description,
+                hasDefaultValue: isset($defaultObject->$varName),
+                defaultValue: $defaultObject->$varName,
             ));
 
         $comment = (string) Arr::first($phpDocNode->children, static fn (PhpDocChildNode $child) => $child instanceof PhpDocTextNode);

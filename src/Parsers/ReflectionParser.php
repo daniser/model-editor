@@ -32,6 +32,8 @@ class ReflectionParser implements PropertyParser
             type: $this->parseType($refProp->getType()),
             variableName: $refProp->getName(),
             description: $refProp->getDocComment() ?: '',
+            hasDefaultValue: $refProp->hasDefaultValue(),
+            defaultValue: $refProp->getDefaultValue(),
         ));
 
         return new Aura(properties: $props->all());
