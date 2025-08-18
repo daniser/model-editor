@@ -13,7 +13,7 @@ use TTBooking\ModelEditor\Support\AliasResolver;
 
 use function TTBooking\ModelEditor\Support\prop_desc;
 
-class Form extends Component
+class Table extends Component
 {
     public Aura $aura;
 
@@ -40,6 +40,6 @@ class Form extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('model-editor::components.form.form');
+        return view('model-editor::components.form.table');
     }
 }
