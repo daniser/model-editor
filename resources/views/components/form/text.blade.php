@@ -1,4 +1,8 @@
 @aware(['object'])
-@props(['property'])
+@props(['property', 'default' => false])
 
-<input {{ $attributes }} type="text" name="{{ $property->variableName }}" value="{{ $object->{$property->variableName} }}" @readonly(! $property->writable) />
+@if ($default)
+    <span {{ $attributes }}>{{ $property->defaultValue }}</span>
+@else
+    <input {{ $attributes }} type="text" name="{{ $property->variableName }}" value="{{ $object->{$property->variableName} }}" @readonly(! $property->writable) />
+@endif

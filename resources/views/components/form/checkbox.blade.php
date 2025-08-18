@@ -1,4 +1,8 @@
 @aware(['object'])
-@props(['property'])
+@props(['property', 'default' => false])
 
-<input {{ $attributes }} type="checkbox" name="{{ $property->variableName }}" @checked($object->{$property->variableName}) @disabled(! $property->writable) />
+@if ($default)
+    <span {{ $attributes }}>{{ __($property->defaultValue ? 'model-editor::form.on' : 'model-editor::form.off') }}</span>
+@else
+    <input {{ $attributes }} type="checkbox" name="{{ $property->variableName }}" @checked($object->{$property->variableName}) @disabled(! $property->writable) />
+@endif

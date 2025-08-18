@@ -7,6 +7,11 @@
             {{ $title }}
         @endif
     </caption>
+    <thead>
+        <th>{{ __('model-editor::form.description') }}</th>
+        <th>{{ __('model-editor::form.value') }}</th>
+        <th>{{ __('model-editor::form.default') }}</th>
+    </thead>
     <tbody>
         @foreach ($aura->properties as $property)
             <x-model-editor::form.row :$property />
