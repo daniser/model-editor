@@ -8,4 +8,5 @@ return [
     'null' => 'NULL',
     'on' => '✔️',
     'off' => '❌',
+    'save' => 'Save',
 ];
