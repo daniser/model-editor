@@ -7,5 +7,5 @@
 @elseif ($object && ! $editable && $object->{$property->variableName} === null)
     <i {{ $attributes }}>{{ __('model-editor::form.null') }}</i>
 @else
-    <x-dynamic-component {{ $attributes }} :$component :$property />
+    <x-dynamic-component {{ $object && $editable ? $attributes : $attributes->except('id') }} :$component :$property />
 @endif
