@@ -1,4 +1,4 @@
-@aware(['object', 'editable'])
+@aware(['object', 'showDefaults', 'editable'])
 
 <tr>
     <th>
@@ -9,5 +9,7 @@
         @endif
     </th>
     <td><x-model-editor::form.input :$id :$property :$object /></td>
-    <td><x-model-editor::form.input :$id :$property /></td>
+    @if ($showDefaults)
+        <td><x-model-editor::form.input :$id :$property /></td>
+    @endif
 </tr>

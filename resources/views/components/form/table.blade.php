@@ -10,7 +10,9 @@
     <thead>
         <th>{{ __('model-editor::form.description') }}</th>
         <th>{{ __('model-editor::form.value') }}</th>
-        <th>{{ __('model-editor::form.default') }}</th>
+        @if ($showDefaults)
+            <th>{{ __('model-editor::form.default') }}</th>
+        @endif
     </thead>
     <tbody>
         @foreach ($aura->properties as $property)
