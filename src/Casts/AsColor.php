@@ -1,0 +1,44 @@
+<?php
+
+declare(strict_types=1);
+
+namespace TTBooking\ModelEditor\Casts;
+
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
+use RuntimeException;
+use TTBooking\ModelEditor\Types\Color;
+
+/**
+ * @implements CastsAttributes<Color, Color>
+ */
+class AsColor implements CastsAttributes
+{
+    /**
+     * Cast the given value.
+     *
+     * @param  array<string, mixed>  $attributes
+     */
+    public function get(Model $model, string $key, mixed $value, array $attributes): ?Color
+    {
+        if (is_null($value)) {
+            return null;
+        }
+
+        if (! is_string($value) || ! preg_match('/^#[a-zA-Z0-9]{6}$/', $value)) {
+            throw new RuntimeException('Invalid color format.');
+        }
+
+        return new Color($value);
+    }
+
+    /**
+     * Prepare the given value for storage.
+     *
+     * @param  array<string, mixed>  $attributes
+     */
+    public function set(Model $model, string $key, mixed $value, array $attributes): ?string
+    {
+        return isset($value) ? (string) $value : null;
+    }
+}
