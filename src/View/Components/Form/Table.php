@@ -26,7 +26,7 @@ class Table extends Component
     /**
      * Create a new component instance.
      */
-    public function __construct(public object $object)
+    public function __construct(public object $object, public bool $editable = false)
     {
         $this->aura = PropertyParser::parse($object);
         $this->alias = AliasResolver::resolveAlias($object);

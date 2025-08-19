@@ -17,7 +17,7 @@ class Input extends Component
     /**
      * Create a new component instance.
      */
-    public function __construct(public AuraProperty $property)
+    public function __construct(public AuraProperty $property, public ?object $object = null)
     {
         $this->component = PropertyHandler::for($property)->component();
     }

@@ -1,11 +1,12 @@
 @use(function Illuminate\Support\enum_value)
 @use(function TTBooking\ModelEditor\Support\enum_desc)
+@use(function TTBooking\ModelEditor\Support\prop_val)
 
-@aware(['object'])
-@props(['property', 'default' => false])
+@aware(['object', 'editable'])
+@props(['property'])
 
-@if ($default)
-    <span {{ $attributes }}>{{ enum_desc($property->defaultValue) }}</span>
+@if (! $object || ! $editable)
+    <span {{ $attributes }}>{{ enum_desc(prop_val($property, $object)) }}</span>
 @else
     <select {{ $attributes }} name="{{ $property->variableName }}" @disabled(! $property->writable)>
         @foreach ($property->type->name::cases() as $case)

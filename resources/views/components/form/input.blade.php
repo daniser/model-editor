@@ -1,10 +1,11 @@
-@aware(['alias'])
-@props(['default' => false])
+@aware(['alias', 'editable'])
 
-@if ($default && ! $property->hasDefaultValue)
-    <i>{{ __('model-editor::form.na') }}</i>
-@elseif ($default && $property->defaultValue === null)
-    <i>{{ __('model-editor::form.null') }}</i>
+@if (! $object && ! $property->hasDefaultValue)
+    <i {{ $attributes }}>{{ __('model-editor::form.na') }}</i>
+@elseif (! $object && $property->defaultValue === null)
+    <i {{ $attributes }}>{{ __('model-editor::form.null') }}</i>
+@elseif ($object && ! $editable && $object->{$property->variableName} === null)
+    <i {{ $attributes }}>{{ __('model-editor::form.null') }}</i>
 @else
-    <x-dynamic-component {{ $attributes }} :$component :$property :$default />
+    <x-dynamic-component {{ $attributes }} :$component :$property />
 @endif

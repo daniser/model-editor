@@ -1,8 +1,10 @@
-@aware(['object'])
-@props(['property', 'default' => false])
+@use(function TTBooking\ModelEditor\Support\prop_val)
 
-@if ($default)
-    <span {{ $attributes }}>{{ $property->defaultValue }}</span>
+@aware(['object', 'editable'])
+@props(['property'])
+
+@if (! $object || ! $editable)
+    <span {{ $attributes }}>{{ prop_val($property, $object) }}</span>
 @else
     <input {{ $attributes }} type="text" name="{{ $property->variableName }}" value="{{ $object->{$property->variableName} }}" @readonly(! $property->writable) />
 @endif

@@ -7,6 +7,7 @@ namespace TTBooking\ModelEditor\Support;
 use Closure;
 use Illuminate\Support\Str;
 use ReflectionEnumUnitCase;
+use TTBooking\ModelEditor\Entities\AuraProperty;
 use UnitEnum;
 
 /**
@@ -46,4 +47,9 @@ function enum_desc(UnitEnum $case, null|string|Closure $fallback = null): string
     return $translator->has($appKey) ? $translator->get($appKey) : (
         $translator->has($pkgKey) ? $translator->get($pkgKey) : value($fallback)
     );
+}
+
+function prop_val(AuraProperty $property, ?object $object = null): mixed
+{
+    return isset($object) ? $object->{$property->variableName} : $property->defaultValue;
 }
