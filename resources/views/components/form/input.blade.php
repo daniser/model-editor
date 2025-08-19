@@ -6,6 +6,8 @@
     <i {{ $attributes->except('id') }}>{{ __('model-editor::form.null') }}</i>
 @elseif ($object && ! $editable && $object->{$property->variableName} === null)
     <i {{ $attributes->except('id') }}>{{ __('model-editor::form.null') }}</i>
+@elseif ($object && $editable)
+    <x-dynamic-component {{ $attributes }} :$component :$property />
 @else
-    <x-dynamic-component {{ $object && $editable ? $attributes : $attributes->except('id') }} :$component :$property />
+    <x-dynamic-component {{ $attributes->except('id') }} :$component :$property />
 @endif
