@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace TTBooking\ModelEditor\Parsers;
 
+use ArgumentCountError;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use phpDocumentor\Reflection\DocBlock\Tags\Property;
 use phpDocumentor\Reflection\DocBlock\Tags\PropertyRead;
@@ -35,14 +37,26 @@ class PhpDocParser implements PropertyParser
             (new ContextFactory)->createFromReflector($refClass)
         );
 
+        try {
+            $defaultObject = $refClass->newInstance();
+        } catch (ArgumentCountError) {
+            $defaultObject = $refClass->newInstanceWithoutConstructor();
+        }
+
         $props = collect(['property', 'property-read', 'property-write'])
             ->flatMap($docblock->getTagsByName(...))
             ->map(fn (Property|PropertyRead|PropertyWrite $property) => new AuraProperty(
                 readable: $property instanceof Property || $property instanceof PropertyRead,
                 writable: $property instanceof Property || $property instanceof PropertyWrite,
                 type: $this->parseType($property->getType()),
-                variableName: (string) $property->getVariableName(),
+                variableName: $varName = (string) $property->getVariableName(),
                 description: (string) $property->getDescription(),
+                hasDefaultValue: $defaultObject instanceof Model
+                    ? $defaultObject->hasAttribute($varName)
+                    : isset($defaultObject->$varName),
+                defaultValue: $defaultObject instanceof Model
+                    ? $defaultObject->getAttributeValue($varName)
+                    : $defaultObject->$varName,
             ));
 
         return new Aura(

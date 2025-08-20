@@ -6,6 +6,7 @@ namespace TTBooking\ModelEditor\Parsers;
 
 use ArgumentCountError;
 use Closure;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use phpDocumentor\Reflection\TypeResolver;
 use phpDocumentor\Reflection\Types\ContextFactory;
@@ -71,8 +72,12 @@ class PhpStanParser implements PropertyParser
                 type: $this->parseType($property->type, $resolver),
                 variableName: $varName = ltrim($property->propertyName, '$'),
                 description: $property->description,
-                hasDefaultValue: isset($defaultObject->$varName),
-                defaultValue: $defaultObject->$varName,
+                hasDefaultValue: $defaultObject instanceof Model
+                    ? $defaultObject->hasAttribute($varName)
+                    : isset($defaultObject->$varName),
+                defaultValue: $defaultObject instanceof Model
+                    ? $defaultObject->getAttributeValue($varName)
+                    : $defaultObject->$varName,
             ));
 
         $comment = (string) Arr::first($phpDocNode->children, static fn (PhpDocChildNode $child) => $child instanceof PhpDocTextNode);
