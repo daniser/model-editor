@@ -7,7 +7,7 @@
     <span {{ $attributes }} title="{{ prop_val($property, $object) }}"
         @style([
             'padding: 0 18px',
-            'border: 4px solid #e5e5e5',
+            'border: 4px solid #efefef',
             'outline: 1px solid #767676',
             'border-radius: 1px',
             'line-height: 27px',
