@@ -1,6 +1,6 @@
 @aware(['object', 'showDefaults', 'editable'])
 
-<tr>
+<tr @class(['me-property-changed' => $changed])>
     <th>
         @if ($editable)
             <label for="{{ $id }}" title="{{ $property->variableName }}">{!! Str::inlineMarkdown($description) ?: $property->variableName !!}</label>

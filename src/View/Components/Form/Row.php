@@ -22,6 +22,8 @@ class Row extends Component
 
     public string $description;
 
+    public bool $changed;
+
     /**
      * Create a new component instance.
      */
@@ -32,6 +34,8 @@ class Row extends Component
 
         $this->id = $this->alias.'_'.Str::snake($property->variableName);
         $this->description = prop_desc($this->object, $property->variableName, $property->description);
+
+        $this->changed = $this->object->{$property->variableName} !== $property->defaultValue;
     }
 
     /**
