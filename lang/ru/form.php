@@ -3,7 +3,7 @@
 return [
     'description' => 'Параметр',
     'value' => 'Значение',
-    'default' => 'По умолчанию',
+    'default' => 'По умолч.',
     'na' => 'н/д',
     'null' => 'NULL',
     'on' => '✔️',

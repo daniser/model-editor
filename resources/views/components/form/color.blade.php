@@ -4,7 +4,16 @@
 @props(['property'])
 
 @if (! $object || ! $editable)
-    <span {{ $attributes }} title="{{ prop_val($property, $object) }}" style="padding: 0 8px; border: 1px solid black; background-color: {{ prop_val($property, $object) }}"></span>
+    <span {{ $attributes }} title="{{ prop_val($property, $object) }}"
+        @style([
+            'padding: 0 18px',
+            'border: 4px solid #e5e5e5',
+            'outline: 1px solid #767676',
+            'border-radius: 1px',
+            'line-height: 27px',
+            'background-color: '.prop_val($property, $object),
+        ])
+    ></span>
 @else
     <input {{ $attributes }} type="color" name="{{ $property->variableName }}" value="{{ $object->{$property->variableName} }}" @readonly(! $property->writable) />
 @endif
