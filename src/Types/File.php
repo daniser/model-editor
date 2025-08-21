@@ -32,6 +32,9 @@ class File implements Castable, JsonSerializable, Stringable
         return Storage::get($this->name);
     }
 
+    /**
+     * @internal
+     */
     public function delete(): bool
     {
         return Storage::delete($this->name);
