@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
 use RuntimeException;
 use TTBooking\ModelEditor\Types\File;
+use TypeError;
 
 /**
  * @implements CastsAttributes<File, File>
@@ -39,6 +40,18 @@ class AsFile implements CastsAttributes
      */
     public function set(Model $model, string $key, mixed $value, array $attributes): ?string
     {
-        return isset($value) ? (string) $value : null;
+        if (is_null($value)) {
+            return null;
+        }
+
+        /** @phpstan-ignore instanceof.alwaysTrue */
+        if (! $value instanceof File) {
+            throw new TypeError(sprintf(
+                'Cannot assign %s to property %s::$%s of type %s',
+                get_debug_type($value), get_class($model), $key, File::class
+            ));
+        }
+
+        return (string) $value;
     }
 }

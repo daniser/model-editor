@@ -25,7 +25,7 @@ class ColorHandler implements PropertyHandler
 
     public function handle(object $object, Request $request): void
     {
-        $object->{$this->property->variableName} = $request->{$this->property->variableName};
+        $object->{$this->property->variableName} = new Color($request->{$this->property->variableName});
     }
 
     public function validate(Request $request): bool

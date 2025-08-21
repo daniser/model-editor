@@ -31,7 +31,7 @@ class FileHandler implements PropertyHandler
             $this->files->delete($object->{$this->property->variableName});
         }
 
-        $object->{$this->property->variableName} = $request->file($this->property->variableName)->store();
+        $object->{$this->property->variableName} = new File($request->file($this->property->variableName)->store());
     }
 
     public function validate(Request $request): bool
