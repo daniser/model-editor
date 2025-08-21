@@ -5,13 +5,21 @@ declare(strict_types=1);
 namespace TTBooking\ModelEditor\Types;
 
 use Illuminate\Contracts\Database\Eloquent\Castable;
+use InvalidArgumentException;
 use JsonSerializable;
 use Stringable;
 use TTBooking\ModelEditor\Casts\AsColor;
 
 class Color implements Castable, JsonSerializable, Stringable
 {
-    public function __construct(public string $value) {}
+    public function __construct(public string $value)
+    {
+        if (! preg_match('/^#[a-zA-Z0-9]{6}$/', $value)) {
+            throw new InvalidArgumentException(
+                'Color should be represented in a 6-digit hexadecimal format prefixed with the hash sign.'
+            );
+        }
+    }
 
     public function __toString(): string
     {

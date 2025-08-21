@@ -10,7 +10,7 @@ use Stringable;
 use TTBooking\ModelEditor\Casts\AsFile;
 
 /**
- * @template TAccept of string
+ * @template TAccept of string = "*\/*"
  */
 class File implements Castable, JsonSerializable, Stringable
 {

@@ -26,8 +26,8 @@ class AsColor implements CastsAttributes
             return null;
         }
 
-        if (! is_string($value) || ! preg_match('/^#[a-zA-Z0-9]{6}$/', $value)) {
-            throw new RuntimeException('Invalid color format.');
+        if (! is_string($value)) {
+            throw new RuntimeException('Color must be a string.');
         }
 
         return new Color($value);
