@@ -11,7 +11,7 @@ use Stringable;
 use TTBooking\ModelEditor\Casts\AsFile;
 
 /**
- * @template TAccept of string = "*\/*"
+ * @template TAccept of string = "\*\/\*"
  */
 class File implements Castable, JsonSerializable, Stringable
 {
@@ -30,6 +30,11 @@ class File implements Castable, JsonSerializable, Stringable
     public function getContent(): ?string
     {
         return Storage::get($this->name);
+    }
+
+    public function delete(): bool
+    {
+        return Storage::delete($this->name);
     }
 
     /**
