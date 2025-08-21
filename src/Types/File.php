@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace TTBooking\ModelEditor\Types;
 
 use Illuminate\Contracts\Database\Eloquent\Castable;
+use Illuminate\Support\Facades\Storage;
 use JsonSerializable;
 use Stringable;
 use TTBooking\ModelEditor\Casts\AsFile;
@@ -24,6 +25,11 @@ class File implements Castable, JsonSerializable, Stringable
     public function jsonSerialize(): string
     {
         return $this->name;
+    }
+
+    public function getContent(): ?string
+    {
+        return Storage::get($this->name);
     }
 
     /**
