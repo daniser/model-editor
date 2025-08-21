@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace TTBooking\ModelEditor\Handlers;
 
+use Illuminate\Contracts\Filesystem\Filesystem;
 use Illuminate\Http\Request;
 use TTBooking\ModelEditor\Contracts\PropertyHandler;
 use TTBooking\ModelEditor\Entities\AuraProperty;
@@ -11,7 +12,7 @@ use TTBooking\ModelEditor\Types\File;
 
 class FileHandler implements PropertyHandler
 {
-    public function __construct(public AuraProperty $property) {}
+    public function __construct(public AuraProperty $property, protected Filesystem $files) {}
 
     public static function satisfies(AuraProperty $property): bool
     {
@@ -26,8 +27,11 @@ class FileHandler implements PropertyHandler
 
     public function handle(object $object, Request $request): void
     {
-        $object->{$this->property->variableName} = $request->file($this->property->variableName)
-            ->store($object->getKey().'/'.$this->property->variableName);
+        if ($object->{$this->property->variableName}) {
+            $this->files->delete($object->{$this->property->variableName});
+        }
+
+        $object->{$this->property->variableName} = $request->file($this->property->variableName)->store();
     }
 
     public function validate(Request $request): bool
