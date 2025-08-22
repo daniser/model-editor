@@ -51,7 +51,7 @@ class FileHandler implements PropertyHandler
         return true;
     }
 
-    protected function getDisk(): string
+    protected function getDisk(): ?string
     {
         if ($disk = $this->property->type->parameters[0]->name ?? false) {
             return unquote($disk);
