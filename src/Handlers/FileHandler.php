@@ -7,6 +7,7 @@ namespace TTBooking\ModelEditor\Handlers;
 use Illuminate\Http\Request;
 use TTBooking\ModelEditor\Contracts\PropertyHandler;
 use TTBooking\ModelEditor\Entities\AuraProperty;
+use TTBooking\ModelEditor\Support\FilenameGenerator;
 use TTBooking\ModelEditor\Types\File;
 
 class FileHandler implements PropertyHandler
@@ -26,7 +27,13 @@ class FileHandler implements PropertyHandler
 
     public function handle(object $object, Request $request): void
     {
-        if (! $name = $request->file($this->property->variableName)?->store()) {
+        if (! $file = $request->file($this->property->variableName)) {
+            return;
+        }
+
+        $name = FilenameGenerator::generateStorableName($object, $this->property, $file);
+
+        if (! $name = $file->storeAs($name)) {
             return;
         }
 
