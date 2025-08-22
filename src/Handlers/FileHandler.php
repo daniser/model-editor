@@ -9,6 +9,7 @@ use TTBooking\ModelEditor\Contracts\PropertyHandler;
 use TTBooking\ModelEditor\Entities\AuraProperty;
 use TTBooking\ModelEditor\Support\FilenameGenerator;
 use TTBooking\ModelEditor\Types\File;
+use function TTBooking\ModelEditor\Support\unquote;
 
 class FileHandler implements PropertyHandler
 {
@@ -33,7 +34,7 @@ class FileHandler implements PropertyHandler
 
         $name = FilenameGenerator::generateStorableName($object, $this->property, $file);
 
-        if (! $name = $file->storeAs($name)) {
+        if (! $name = $file->storeAs($name, options: $this->getDisk())) {
             return;
         }
 
@@ -47,5 +48,14 @@ class FileHandler implements PropertyHandler
     public function validate(Request $request): bool
     {
         return true;
+    }
+
+    protected function getDisk(): string
+    {
+        if ($disk = $this->property->type->parameters[0]->name ?? false) {
+            return unquote($disk);
+        }
+
+        return config('model-editor.disk');
     }
 }

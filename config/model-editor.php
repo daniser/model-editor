@@ -17,4 +17,6 @@ return [
         TTBooking\ModelEditor\Handlers\FileHandler::class,
     ],
 
+    'disk' => env('ME_DISK'),
+
 ];
