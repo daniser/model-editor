@@ -32,7 +32,7 @@ class AsFile implements CastsAttributes
             throw new RuntimeException('File name must be a string.');
         }
 
-        return new File($value, $this->disk);
+        return new File($value, $this->disk ?? config('model-editor.disk'));
     }
 
     /**
