@@ -4,9 +4,9 @@
 @props(['property'])
 
 @if ($action)
-    <a {{ $attributes }} href="{{ $action.'/'.$property->variableName }}">{{ prop_val($property, $object) }}</a>
+    <a {{ $attributes }} href="{{ $action.'/'.$property->variableName }}">{{ basename(prop_val($property, $object)) }}</a>
 @else
-    <span {{ $attributes }}>{{ prop_val($property, $object) }}</span>
+    <span {{ $attributes }}>{{ basename(prop_val($property, $object)) }}</span>
 @endif
 
 @if ($object && $editable)
