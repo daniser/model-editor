@@ -33,8 +33,9 @@ class FileHandler implements PropertyHandler
         }
 
         $name = FilenameGenerator::generateStorableName($object, $this->property, $file);
+        $disk = $this->getDisk();
 
-        if (! $name = $file->storeAs($name, options: $this->getDisk())) {
+        if (! $name = $file->storeAs($name, compact('disk'))) {
             return;
         }
 
@@ -42,7 +43,7 @@ class FileHandler implements PropertyHandler
             $object->{$this->property->variableName}->delete();
         }
 
-        $object->{$this->property->variableName} = new File($name);
+        $object->{$this->property->variableName} = new File($name, $disk);
     }
 
     public function validate(Request $request): bool

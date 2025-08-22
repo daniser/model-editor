@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace TTBooking\ModelEditor\Types;
 
 /**
- * @extends File<'image/{*}'>
+ * @template TDisk of string|null = null
+ *
+ * @extends File<TDisk, 'image/{*}'>
  */
 class Image extends File {}
