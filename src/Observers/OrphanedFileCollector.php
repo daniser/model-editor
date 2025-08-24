@@ -18,7 +18,7 @@ class OrphanedFileCollector
             return;
         }
 
-        foreach ($model->getAttributes() as $maybeFile) {
+        foreach ($model->attributesToArray() as $maybeFile) {
             $maybeFile instanceof File && $maybeFile->delete();
         }
     }
