@@ -14,6 +14,10 @@ class OrphanedFileCollector
      */
     public function deleting(Model $model): void
     {
+        if (method_exists($model, 'isForceDeleting') && ! $model->isForceDeleting()) {
+            return;
+        }
+
         foreach ($model->getAttributes() as $maybeFile) {
             $maybeFile instanceof File && $maybeFile->delete();
         }
