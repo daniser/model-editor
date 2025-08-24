@@ -12,7 +12,7 @@ class OrphanedFileCollector
     /**
      * Cleanup orphaned uploaded files.
      */
-    public function deleting(Model $model): void
+    public function deleted(Model $model): void
     {
         if (method_exists($model, 'isForceDeleting') && ! $model->isForceDeleting()) {
             return;
