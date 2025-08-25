@@ -3,22 +3,31 @@
 @aware(['object', 'action', 'editable'])
 @props(['property'])
 
-@if ($action)
-    <a {{ $attributes }} href="{{ $action.'/'.$property->variableName }}">
-        @if (config('model-editor.show_uploaded_file_name'))
-            {{ basename(prop_val($property, $object)) }}
-        @else
-            {{ __('model-editor::form.download') }}
-        @endif
-    </a>
-@else
-    <span {{ $attributes }}>
-        @if (config('model-editor.show_uploaded_file_name'))
-            {{ basename(prop_val($property, $object)) }}
-        @else
-            {{ __('model-editor::form.uploaded') }}
-        @endif
-    </span>
+@php($file = prop_val($property, $object))
+
+@if ($file)
+    @if ($action)
+        <a {{ $attributes }}
+           href="{{ $action.'/'.$property->variableName }}"
+           @if($file->contentDisposition === 'inline')
+           target="_blank"
+           @endif
+        >
+            @if (config('model-editor.show_uploaded_file_name'))
+                {{ basename($file) }}
+            @else
+                {{ __('model-editor::form.download') }}
+            @endif
+        </a>
+    @else
+        <span {{ $attributes }}>
+            @if (config('model-editor.show_uploaded_file_name'))
+                {{ basename($file) }}
+            @else
+                {{ __('model-editor::form.uploaded') }}
+            @endif
+        </span>
+    @endif
 @endif
 
 @if ($object && $editable)
