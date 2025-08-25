@@ -32,7 +32,8 @@ class Table extends Component
         public bool $showDefaults = true,
         public bool $editable = false,
     ) {
-        $this->aura = PropertyParser::parse($object);
+        $this->aura = $this->factory()->getConsumableComponentData('aura') // @phpstan-ignore assign.propertyType
+            ?? PropertyParser::parse($object);
         $this->alias = AliasResolver::resolveAlias($object);
 
         $this->summary = prop_desc($object, '_summary', $this->aura->summary);
