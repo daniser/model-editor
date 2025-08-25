@@ -19,6 +19,8 @@ return [
 
     'disk' => env('ME_DISK'),
 
+    'content_disposition' => env('ME_CONTENT_DISPOSITION', 'attachment'),
+
     'show_uploaded_file_name' => env('ME_SHOW_FILENAME', true),
 
 ];

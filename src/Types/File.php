@@ -13,13 +13,19 @@ use TTBooking\ModelEditor\Casts\AsFile;
 /**
  * @template TDisk of string|null = null
  * @template TAccept of string = "\*\/\*"
+ * @template TDisposition of string = "attachment"
  */
 class File implements Castable, JsonSerializable, Stringable
 {
     /**
      * @param  TDisk  $disk
+     * @param  TDisposition  $contentDisposition
      */
-    public function __construct(public string $name, public ?string $disk = null) {}
+    public function __construct(
+        public string $name,
+        public ?string $disk = null,
+        public string $contentDisposition = 'attachment',
+    ) {}
 
     public function __toString(): string
     {

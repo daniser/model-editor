@@ -43,7 +43,7 @@ class FileHandler implements PropertyHandler
             $object->{$this->property->variableName}->delete();
         }
 
-        $object->{$this->property->variableName} = new File($name, $disk);
+        $object->{$this->property->variableName} = new File($name, $disk, $this->getContentDisposition());
     }
 
     public function validate(Request $request): bool
@@ -58,5 +58,14 @@ class FileHandler implements PropertyHandler
         }
 
         return config('model-editor.disk');
+    }
+
+    protected function getContentDisposition(): string
+    {
+        if ($contentDisposition = $this->property->type->parameters[2]->name ?? false) {
+            return unquote($contentDisposition);
+        }
+
+        return config('model-editor.content_disposition', 'attachment');
     }
 }
