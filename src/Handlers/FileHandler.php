@@ -9,7 +9,6 @@ use TTBooking\ModelEditor\Contracts\PropertyHandler;
 use TTBooking\ModelEditor\Entities\AuraProperty;
 use TTBooking\ModelEditor\Support\FilenameGenerator;
 use TTBooking\ModelEditor\Types\File;
-use function TTBooking\ModelEditor\Support\unquote;
 
 class FileHandler implements PropertyHandler
 {
@@ -53,8 +52,8 @@ class FileHandler implements PropertyHandler
 
     protected function getDisk(): ?string
     {
-        if ($disk = $this->property->type->parameters[0]->name ?? false) {
-            return unquote($disk);
+        if (isset($this->property->type->parameters[0])) {
+            return $this->property->type->parameters[0]->asConstExpr() ?? config('model-editor.disk');
         }
 
         return config('model-editor.disk');
@@ -62,8 +61,9 @@ class FileHandler implements PropertyHandler
 
     protected function getContentDisposition(): string
     {
-        if ($contentDisposition = $this->property->type->parameters[2]->name ?? false) {
-            return unquote($contentDisposition);
+        if (isset($this->property->type->parameters[2])) {
+            return $this->property->type->parameters[2]->asConstExpr()
+                ?? config('model-editor.content_disposition', 'attachment');
         }
 
         return config('model-editor.content_disposition', 'attachment');

@@ -1,5 +1,4 @@
 @use(function TTBooking\ModelEditor\Support\prop_val)
-@use(function TTBooking\ModelEditor\Support\unquote)
 
 @aware(['object', 'action', 'editable'])
 @props(['property'])
@@ -27,7 +26,7 @@
         type="file"
         name="{{ $property->variableName }}"
         @isset($property->type->parameters[1])
-        accept="{{ unquote($property->type->parameters[1]) }}"
+        accept="{{ $property->type->parameters[1]->asConstExpr() }}"
         @endisset
         {!! $property->type->name === 'list' ? 'multiple' : '' !!}
         @readonly(! $property->writable)

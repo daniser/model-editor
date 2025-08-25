@@ -53,14 +53,3 @@ function prop_val(AuraProperty $property, ?object $object = null): mixed
 {
     return isset($object) ? $object->{$property->variableName} : $property->defaultValue;
 }
-
-function unquote(string $value): string
-{
-    if (Str::startsWith($value, "'") && Str::endsWith($value, "'")) {
-        $value = Str::unwrap($value, "'");
-    } elseif (Str::startsWith($value, '"') && Str::endsWith($value, '"')) {
-        $value = Str::unwrap($value, '"');
-    }
-
-    return $value;
-}

@@ -26,6 +26,11 @@ readonly class AuraNamedType extends AuraType
         return $type === $this->name || $type === (string) $this;
     }
 
+    public function asConstExpr(): mixed
+    {
+        return eval('return '.$this->name.';');
+    }
+
     public function __toString(): string
     {
         return $this->parameters ? sprintf('%s<%s>', $this->name, implode(', ', $this->parameters)) : $this->name;
