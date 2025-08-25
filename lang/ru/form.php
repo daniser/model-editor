@@ -8,5 +8,7 @@ return [
     'null' => 'NULL',
     'on' => '✔️',
     'off' => '❌',
+    'download' => 'скачать',
+    'uploaded' => 'загружен',
     'save' => 'Сохранить',
 ];

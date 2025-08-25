@@ -19,4 +19,6 @@ return [
 
     'disk' => env('ME_DISK'),
 
+    'show_uploaded_file_name' => env('ME_SHOW_FILENAME', true),
+
 ];

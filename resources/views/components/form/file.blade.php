@@ -4,9 +4,21 @@
 @props(['property'])
 
 @if ($action)
-    <a {{ $attributes }} href="{{ $action.'/'.$property->variableName }}">{{ basename(prop_val($property, $object)) }}</a>
+    <a {{ $attributes }} href="{{ $action.'/'.$property->variableName }}">
+        @if (config('model-editor.show_uploaded_file_name'))
+            {{ basename(prop_val($property, $object)) }}
+        @else
+            {{ __('model-editor::form.download') }}
+        @endif
+    </a>
 @else
-    <span {{ $attributes }}>{{ basename(prop_val($property, $object)) }}</span>
+    <span {{ $attributes }}>
+        @if (config('model-editor.show_uploaded_file_name'))
+            {{ basename(prop_val($property, $object)) }}
+        @else
+            {{ __('model-editor::form.uploaded') }}
+        @endif
+    </span>
 @endif
 
 @if ($object && $editable)
