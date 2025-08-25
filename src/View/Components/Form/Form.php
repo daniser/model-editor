@@ -16,17 +16,20 @@ class Form extends Component
 {
     public Aura $aura;
 
+    /** @var array<string, mixed> */
+    public array $mergeAttrs = [];
+
     /**
      * Create a new component instance.
      */
-    public function __construct(public object $object, public bool $showDefaults = true, public ?string $enctype = null)
+    public function __construct(public object $object, public bool $showDefaults = true)
     {
         $this->aura = PropertyParser::parse($object);
 
         $containsFileProperty = collect($this->aura->properties)
             ->contains(static fn (AuraProperty $property) => $property->type->contains(File::class));
 
-        $this->enctype ??= $containsFileProperty ? 'multipart/form-data' : null;
+        $this->mergeAttrs = $containsFileProperty ? ['enctype' => 'multipart/form-data'] : [];
     }
 
     /**
