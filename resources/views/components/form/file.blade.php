@@ -15,6 +15,8 @@
         >
             @if (config('model-editor.show_uploaded_file_name'))
                 {{ basename($file) }}
+            @elseif ($file->contentDisposition === 'inline')
+                {{ __('model-editor::form.open') }}
             @else
                 {{ __('model-editor::form.download') }}
             @endif

@@ -8,6 +8,7 @@ return [
     'null' => 'NULL',
     'on' => '✔️',
     'off' => '❌',
+    'open' => 'открыть',
     'download' => 'скачать',
     'uploaded' => 'загружен',
     'save' => 'Сохранить',

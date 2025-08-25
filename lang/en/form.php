@@ -8,6 +8,7 @@ return [
     'null' => 'NULL',
     'on' => '✔️',
     'off' => '❌',
+    'open' => 'open',
     'download' => 'download',
     'uploaded' => 'uploaded',
     'save' => 'Save',
