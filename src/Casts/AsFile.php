@@ -15,7 +15,7 @@ use TypeError;
  */
 class AsFile implements CastsAttributes
 {
-    public function __construct(protected ?string $disk = null, protected ?string $contentDisposition = null) {}
+    public function __construct(protected string $disk = '', protected string $contentDisposition = '') {}
 
     /**
      * Cast the given value.
@@ -34,8 +34,8 @@ class AsFile implements CastsAttributes
 
         return new File(
             $value,
-            $this->disk ?? config('model-editor.disk'),
-            $this->contentDisposition ?? config('model-editor.content_disposition', 'attachment')
+            $this->disk ?: config('model-editor.disk'),
+            $this->contentDisposition ?: config('model-editor.content_disposition', 'attachment')
         );
     }
 
