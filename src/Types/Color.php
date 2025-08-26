@@ -9,8 +9,9 @@ use InvalidArgumentException;
 use JsonSerializable;
 use Stringable;
 use TTBooking\ModelEditor\Casts\AsColor;
+use TTBooking\ModelEditor\Contracts\Comparable;
 
-class Color implements Castable, JsonSerializable, Stringable
+class Color implements Castable, Comparable, JsonSerializable, Stringable
 {
     public function __construct(public string $value)
     {
@@ -29,6 +30,11 @@ class Color implements Castable, JsonSerializable, Stringable
     public function jsonSerialize(): string
     {
         return $this->value;
+    }
+
+    public function sameAs(mixed $that): bool
+    {
+        return $that instanceof $this && $that->value === $this->value;
     }
 
     /**
