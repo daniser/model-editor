@@ -9,7 +9,7 @@
 @if ($file)
     @if ($action)
         <a {{ $attributes }}
-           href="{{ $action.'/'.$property->variableName }}"
+           href="{{ $action.'/'.$property->variableName.($object ? '' : '/default') }}"
            @if ($file->contentDisposition === 'inline')
            target="_blank"
            @endif
