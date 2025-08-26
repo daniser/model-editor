@@ -20,7 +20,7 @@ readonly class AuraNamedType extends AuraType
     public function contains(string $type): bool
     {
         if (class_exists($this->name) || interface_exists($this->name)) {
-            return is_a($type, $this->name, true);
+            return is_a($this->name, $type, true);
         }
 
         return $type === $this->name || $type === (string) $this;
