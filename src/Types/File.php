@@ -39,6 +39,11 @@ class File implements Castable, JsonSerializable, Stringable
         return $this->name;
     }
 
+    public function sameAs(self $that): bool
+    {
+        return $this->disk === $that->disk && $this->name === $that->name;
+    }
+
     public function exists(): bool
     {
         return Storage::disk($this->disk)->exists($this->name);
