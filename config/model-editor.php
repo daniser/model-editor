@@ -23,4 +23,13 @@ return [
 
     'show_uploaded_file_name' => env('ME_SHOW_FILENAME', true),
 
+    'image' => [
+
+        'preview' => [
+            'width' => env('ME_PREVIEW_WIDTH', 100),
+            'height' => env('ME_PREVIEW_HEIGHT', 100),
+            'scale_down_threshold' => env('ME_PREVIEW_SCALE_DOWN_THRESHOLD', 10_240),
+        ],
+    ],
+
 ];

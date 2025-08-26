@@ -1,3 +1,4 @@
+@use(TTBooking\ModelEditor\Types\Image)
 @use(function TTBooking\ModelEditor\Support\prop_val)
 
 @aware(['object', 'action', 'editable'])
@@ -15,7 +16,16 @@
            title="{{ basename($file) }}"
         >
             @if ($preview = $file->preview())
-                <img src="{{ $preview }}" alt="{{ basename($file) }}" style="margin: 5px 0" />
+                <img
+                    src="{{ $preview }}"
+                    alt="{{ basename($file) }}"
+                    @style([
+                        'margin: 5px 0',
+                        'max-width: '.Image::previewWidth(),
+                        'max-height: '.Image::previewHeight(),
+                        'object-fit: scale-down',
+                    ])
+                />
             @elseif (config('model-editor.show_uploaded_file_name'))
                 {{ basename($file) }}
             @elseif ($file->contentDisposition === 'inline')
@@ -27,7 +37,16 @@
     @else
         <span {{ $attributes }} title="{{ basename($file) }}">
             @if ($preview = $file->preview())
-                <img src="{{ $preview }}" alt="{{ basename($file) }}" style="margin: 5px 0" />
+                <img
+                    src="{{ $preview }}"
+                    alt="{{ basename($file) }}"
+                    @style([
+                        'margin: 5px 0',
+                        'max-width: '.Image::previewWidth(),
+                        'max-height: '.Image::previewHeight(),
+                        'object-fit: scale-down',
+                    ])
+                />
             @elseif (config('model-editor.show_uploaded_file_name'))
                 {{ basename($file) }}
             @else

@@ -40,11 +40,13 @@ class Image extends File
         /** @var string $data */
         $data = $this->getContent();
 
-        if ($this->mediaType() === 'image/svg+xml' || $this->size() <= 20_480) {
+        if ($this->mediaType() === 'image/svg+xml' || $this->size() <= static::previewScaleDownThreshold()) {
             $preview = new EncodedImage($data, $this->mediaType());
         } else {
             try {
-                $preview = InterventionImage::read($data)->scaleDown(100, 100)->encode();
+                $preview = InterventionImage::read($data)
+                    ->scaleDown(static::previewWidth(), static::previewHeight())
+                    ->encode();
             } catch (DecoderException) {
                 return null;
             }
@@ -62,5 +64,23 @@ class Image extends File
     public static function castUsing(array $arguments): string
     {
         return AsImage::class;
+    }
+
+    public static function previewWidth(): int
+    {
+        /** @var int */
+        return config('model-editor.image.preview.width', 100);
+    }
+
+    public static function previewHeight(): int
+    {
+        /** @var int */
+        return config('model-editor.image.preview.height', 100);
+    }
+
+    public static function previewScaleDownThreshold(): int
+    {
+        /** @var int */
+        return config('model-editor.image.preview.scale_down_threshold', 10_240);
     }
 }
