@@ -8,6 +8,7 @@ use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Str;
 use Illuminate\View\Component;
+use TTBooking\ModelEditor\Contracts\Comparable;
 use TTBooking\ModelEditor\Entities\AuraProperty;
 
 use function TTBooking\ModelEditor\Support\prop_desc;
@@ -35,7 +36,9 @@ class Row extends Component
         $this->id = $this->alias.'_'.Str::snake($property->variableName);
         $this->description = prop_desc($this->object, $property->variableName, $property->description);
 
-        $this->changed = $this->object->{$property->variableName} !== $property->defaultValue;
+        $this->changed = $this->object->{$property->variableName} instanceof Comparable
+            ? ! $this->object->{$property->variableName}->sameAs($property->defaultValue)
+            : $this->object->{$property->variableName} != $property->defaultValue;
     }
 
     /**

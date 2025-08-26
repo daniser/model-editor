@@ -9,7 +9,6 @@ use TTBooking\ModelEditor\Contracts\PropertyHandler;
 use TTBooking\ModelEditor\Entities\AuraProperty;
 use TTBooking\ModelEditor\Support\FilenameGenerator;
 use TTBooking\ModelEditor\Types\File;
-use function TTBooking\ModelEditor\Support\prop_val;
 
 class FileHandler implements PropertyHandler
 {
@@ -51,13 +50,12 @@ class FileHandler implements PropertyHandler
 
     protected function deleteFileIfNotDefault(object $object): bool
     {
-        $file = prop_val($this->property, $object);
+        $file = $object->{$this->property->variableName};
         if (! $file instanceof File) {
             return false;
         }
 
-        $default = prop_val($this->property);
-        if ($default instanceof File && $default->sameAs($file)) {
+        if ($file->sameAs($this->property->defaultValue)) {
             return false;
         }
 

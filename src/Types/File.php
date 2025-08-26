@@ -10,13 +10,14 @@ use Illuminate\Support\Facades\Storage;
 use JsonSerializable;
 use Stringable;
 use TTBooking\ModelEditor\Casts\AsFile;
+use TTBooking\ModelEditor\Contracts\Comparable;
 
 /**
  * @template TDisk of string|null = null
  * @template TAccept of string = "\*\/\*"
  * @template TDisposition of string = "attachment"
  */
-class File implements Castable, JsonSerializable, Stringable
+class File implements Castable, Comparable, JsonSerializable, Stringable
 {
     /**
      * @param  TDisk  $disk
@@ -39,9 +40,11 @@ class File implements Castable, JsonSerializable, Stringable
         return $this->name;
     }
 
-    public function sameAs(self $that): bool
+    public function sameAs(mixed $that): bool
     {
-        return $this->disk === $that->disk && $this->name === $that->name;
+        return $that instanceof $this
+            && $that->disk === $this->disk
+            && $that->name === $this->name;
     }
 
     public function exists(): bool
