@@ -61,7 +61,7 @@ class AsImage implements CastsAttributes
         return (string) $value;
     }
 
-    protected function getDisk(string $value): string
+    protected function getDisk(string $value): ?string
     {
         if (str_starts_with($value, '$')) {
             return config('model-editor.file.static_disk');
