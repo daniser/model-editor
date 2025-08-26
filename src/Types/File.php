@@ -37,6 +37,11 @@ class File implements Castable, JsonSerializable, Stringable
         return $this->name;
     }
 
+    public function exists(): bool
+    {
+        return Storage::disk($this->disk)->exists($this->name);
+    }
+
     public function getContent(): ?string
     {
         return Storage::disk($this->disk)->get($this->name);

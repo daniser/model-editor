@@ -13,11 +13,11 @@
            @endif
            title="{{ basename($file) }}"
         >
-            <img src="{{ $preview }}" alt="{{ basename($file) }}" />
+            <img src="{{ $preview }}" alt="{{ basename($file) }}" style="margin: 5px 0" />
         </a>
     @else
         <span {{ $attributes }} title="{{ basename($file) }}">
-            <img src="{{ $preview }}" alt="{{ basename($file) }}" />
+            <img src="{{ $preview }}" alt="{{ basename($file) }}" style="margin: 5px 0" />
         </span>
     @endif
 @endif
