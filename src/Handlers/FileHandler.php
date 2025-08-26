@@ -67,7 +67,7 @@ class FileHandler implements PropertyHandler
     protected function getDefaultDisk(): ?string
     {
         /** @var string|null */
-        return config('model-editor.disk');
+        return config('model-editor.file.disk');
     }
 
     protected function getContentDisposition(): string

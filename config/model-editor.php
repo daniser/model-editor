@@ -17,7 +17,10 @@ return [
         TTBooking\ModelEditor\Handlers\FileHandler::class,
     ],
 
-    'disk' => env('ME_DISK'),
+    'file' => [
+        'disk' => env('ME_DISK'),
+        'static_disk' => env('ME_STATIC_DISK'),
+    ],
 
     'content_disposition' => env('ME_CONTENT_DISPOSITION', 'attachment'),
 

@@ -33,8 +33,8 @@ class AsFile implements CastsAttributes
         }
 
         return new File(
-            $value,
-            $this->disk ?: config('model-editor.disk'),
+            ltrim($value, '$'),
+            $this->getDisk($value),
             $this->contentDisposition ?: config('model-editor.content_disposition', 'attachment')
         );
     }
@@ -59,5 +59,14 @@ class AsFile implements CastsAttributes
         }
 
         return (string) $value;
+    }
+
+    protected function getDisk(string $value): string
+    {
+        if (str_starts_with($value, '$')) {
+            return config('model-editor.file.static_disk');
+        }
+
+        return $this->disk ?: config('model-editor.file.disk');
     }
 }
