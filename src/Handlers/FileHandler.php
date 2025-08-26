@@ -42,7 +42,7 @@ class FileHandler implements PropertyHandler
             $object->{$this->property->variableName}->delete();
         }
 
-        $object->{$this->property->variableName} = new File($name, $disk, $this->getContentDisposition());
+        $object->{$this->property->variableName} = $this->newInstance($name, $disk);
     }
 
     public function validate(Request $request): bool
@@ -50,22 +50,38 @@ class FileHandler implements PropertyHandler
         return true;
     }
 
+    protected function newInstance(string $name, ?string $disk = null): File
+    {
+        return new File($name, $disk, $this->getContentDisposition());
+    }
+
     protected function getDisk(): ?string
     {
         if (isset($this->property->type->parameters[0])) {
-            return $this->property->type->parameters[0]->asConstExpr() ?? config('model-editor.disk');
+            return $this->property->type->parameters[0]->asConstExpr() ?? $this->getDefaultDisk();
         }
 
+        return $this->getDefaultDisk();
+    }
+
+    protected function getDefaultDisk(): ?string
+    {
+        /** @var string|null */
         return config('model-editor.disk');
     }
 
     protected function getContentDisposition(): string
     {
         if (isset($this->property->type->parameters[2])) {
-            return $this->property->type->parameters[2]->asConstExpr()
-                ?? config('model-editor.content_disposition', 'attachment');
+            return $this->property->type->parameters[2]->asConstExpr() ?? $this->getDefaultContentDisposition();
         }
 
+        return $this->getDefaultContentDisposition();
+    }
+
+    protected function getDefaultContentDisposition(): string
+    {
+        /** @var string */
         return config('model-editor.content_disposition', 'attachment');
     }
 }

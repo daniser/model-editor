@@ -19,4 +19,14 @@ class ImageHandler extends FileHandler
     {
         return 'model-editor::form.image';
     }
+
+    protected function newInstance(string $name, ?string $disk = null): Image
+    {
+        return new Image($name, $disk, $this->getContentDisposition());
+    }
+
+    protected function getDefaultContentDisposition(): string
+    {
+        return 'inline';
+    }
 }
