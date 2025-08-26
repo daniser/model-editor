@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace TTBooking\ModelEditor\Types;
 
+use Intervention\Image\EncodedImage;
+use Intervention\Image\Exceptions\DecoderException;
+use Intervention\Image\Laravel\Facades\Image as InterventionImage;
 use TTBooking\ModelEditor\Casts\AsImage;
 
 /**
@@ -19,9 +22,35 @@ class Image extends File
      * @param  TDisk  $disk
      * @param  TDisposition  $contentDisposition
      */
-    public function __construct(string $name, ?string $disk = null, string $contentDisposition = 'inline')
+    public function __construct(
+        string $name,
+        ?string $disk = null,
+        string $contentDisposition = 'inline',
+        ?string $mediaType = null,
+    ) {
+        parent::__construct($name, $disk, $contentDisposition, $mediaType);
+    }
+
+    public function preview(): ?string
     {
-        parent::__construct($name, $disk, $contentDisposition);
+        if (! $this->exists()) {
+            return null;
+        }
+
+        /** @var string $data */
+        $data = $this->getContent();
+
+        if ($this->mediaType() === 'image/svg+xml' || $this->size() <= 20_480) {
+            $preview = new EncodedImage($data, $this->mediaType());
+        } else {
+            try {
+                $preview = InterventionImage::read($data)->scaleDown(100, 100)->encode();
+            } catch (DecoderException) {
+                return null;
+            }
+        }
+
+        return $preview->toDataUri();
     }
 
     /**

@@ -1,6 +1,7 @@
 @use(function TTBooking\ModelEditor\Support\prop_val)
 
-@aware(['action', 'editable'])
+@aware(['object', 'action', 'editable'])
+@props(['property'])
 
 @php($file = prop_val($property, $object))
 
@@ -13,11 +14,25 @@
            @endif
            title="{{ basename($file) }}"
         >
-            <img src="{{ $preview }}" alt="{{ basename($file) }}" style="margin: 5px 0" />
+            @if ($preview = $file->preview())
+                <img src="{{ $preview }}" alt="{{ basename($file) }}" style="margin: 5px 0" />
+            @elseif (config('model-editor.show_uploaded_file_name'))
+                {{ basename($file) }}
+            @elseif ($file->contentDisposition === 'inline')
+                {{ __('model-editor::form.open') }}
+            @else
+                {{ __('model-editor::form.download') }}
+            @endif
         </a>
     @else
         <span {{ $attributes }} title="{{ basename($file) }}">
-            <img src="{{ $preview }}" alt="{{ basename($file) }}" style="margin: 5px 0" />
+            @if ($preview = $file->preview())
+                <img src="{{ $preview }}" alt="{{ basename($file) }}" style="margin: 5px 0" />
+            @elseif (config('model-editor.show_uploaded_file_name'))
+                {{ basename($file) }}
+            @else
+                {{ __('model-editor::form.uploaded') }}
+            @endif
         </span>
     @endif
 @endif

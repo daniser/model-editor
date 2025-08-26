@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace TTBooking\ModelEditor\Types;
 
 use Illuminate\Contracts\Database\Eloquent\Castable;
+use Illuminate\Http\Testing\MimeType;
 use Illuminate\Support\Facades\Storage;
 use JsonSerializable;
 use Stringable;
@@ -25,6 +26,7 @@ class File implements Castable, JsonSerializable, Stringable
         public string $name,
         public ?string $disk = null,
         public string $contentDisposition = 'attachment',
+        protected ?string $mediaType = null,
     ) {}
 
     public function __toString(): string
@@ -42,6 +44,11 @@ class File implements Castable, JsonSerializable, Stringable
         return Storage::disk($this->disk)->exists($this->name);
     }
 
+    public function size(): int
+    {
+        return Storage::disk($this->disk)->size($this->name);
+    }
+
     public function getContent(): ?string
     {
         return Storage::disk($this->disk)->get($this->name);
@@ -53,6 +60,11 @@ class File implements Castable, JsonSerializable, Stringable
     public function delete(): bool
     {
         return Storage::disk($this->disk)->delete($this->name);
+    }
+
+    public function mediaType(): string
+    {
+        return $this->mediaType ??= MimeType::from($this->name);
     }
 
     /**
