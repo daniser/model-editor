@@ -21,8 +21,8 @@
                     alt="{{ basename($file) }}"
                     @style([
                         'margin: 5px 0',
-                        'max-width: '.Image::previewWidth(),
-                        'max-height: '.Image::previewHeight(),
+                        'max-width: '.Image::previewWidth().'px',
+                        'max-height: '.Image::previewHeight().'px',
                         'object-fit: scale-down',
                     ])
                 />
