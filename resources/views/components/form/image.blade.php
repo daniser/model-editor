@@ -28,6 +28,8 @@
         name="{{ $property->variableName }}"
         @isset($property->type->parameters[1])
         accept="{{ $property->type->parameters[1]->asConstExpr() }}"
+        @else
+        accept="image/*"
         @endisset
         {!! $property->type->name === 'list' ? 'multiple' : '' !!}
         @readonly(! $property->writable)
