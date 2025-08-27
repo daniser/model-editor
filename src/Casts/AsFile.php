@@ -36,7 +36,7 @@ class AsFile implements CastsAttributes
         }
 
         return new (static::TYPE)(
-            ltrim($value, '$'),
+            ltrim($value, '/'),
             $this->getDisk($value),
             $this->contentDisposition ?: static::TYPE::contentDisposition()
         );
@@ -65,7 +65,7 @@ class AsFile implements CastsAttributes
 
     protected function getDisk(string $value): ?string
     {
-        if (str_starts_with($value, '$')) {
+        if (str_starts_with($value, '/')) {
             return static::TYPE::staticDisk();
         }
 
