@@ -15,6 +15,9 @@ use TypeError;
  */
 class AsFile implements CastsAttributes
 {
+    /** @var class-string<File> */
+    protected static string $type = File::class;
+
     public function __construct(protected string $disk = '', protected string $contentDisposition = '') {}
 
     /**
@@ -32,10 +35,10 @@ class AsFile implements CastsAttributes
             throw new RuntimeException('File name must be a string.');
         }
 
-        return new File(
+        return new (static::$type)(
             ltrim($value, '$'),
             $this->getDisk($value),
-            $this->contentDisposition ?: File::contentDisposition()
+            $this->contentDisposition ?: static::$type::contentDisposition()
         );
     }
 
@@ -50,11 +53,10 @@ class AsFile implements CastsAttributes
             return null;
         }
 
-        /** @phpstan-ignore instanceof.alwaysTrue */
-        if (! $value instanceof File) {
+        if (! $value instanceof static::$type) {
             throw new TypeError(sprintf(
                 'Cannot assign %s to property %s::$%s of type %s',
-                get_debug_type($value), get_class($model), $key, File::class
+                get_debug_type($value), get_class($model), $key, static::$type
             ));
         }
 
@@ -64,9 +66,9 @@ class AsFile implements CastsAttributes
     protected function getDisk(string $value): ?string
     {
         if (str_starts_with($value, '$')) {
-            return File::staticDisk();
+            return static::$type::staticDisk();
         }
 
-        return $this->disk ?: File::disk();
+        return $this->disk ?: static::$type::disk();
     }
 }
