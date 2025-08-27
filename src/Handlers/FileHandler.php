@@ -12,12 +12,15 @@ use TTBooking\ModelEditor\Types\File;
 
 class FileHandler implements PropertyHandler
 {
+    /** @var class-string<File> */
+    protected static string $type = File::class;
+
     public function __construct(public AuraProperty $property) {}
 
     public static function satisfies(AuraProperty $property): bool
     {
-        return is_a($property->type->name, File::class, true)
-            || $property->type->name === 'list' && is_a($property->type->parameters[0]->name, File::class, true);
+        return is_a($property->type->name, static::$type, true)
+            || $property->type->name === 'list' && is_a($property->type->parameters[0]->name, static::$type, true);
     }
 
     public function component(): string
@@ -64,36 +67,24 @@ class FileHandler implements PropertyHandler
 
     protected function newInstance(string $name, ?string $disk = null): File
     {
-        return new File($name, $disk, $this->getContentDisposition());
+        return new (static::$type)($name, $disk, $this->getContentDisposition());
     }
 
     protected function getDisk(): ?string
     {
         if (isset($this->property->type->parameters[0])) {
-            return $this->property->type->parameters[0]->asConstExpr() ?? $this->getDefaultDisk();
+            return $this->property->type->parameters[0]->asConstExpr() ?? static::$type::disk();
         }
 
-        return $this->getDefaultDisk();
-    }
-
-    protected function getDefaultDisk(): ?string
-    {
-        /** @var string|null */
-        return config('model-editor.file.disk');
+        return static::$type::disk();
     }
 
     protected function getContentDisposition(): string
     {
         if (isset($this->property->type->parameters[2])) {
-            return $this->property->type->parameters[2]->asConstExpr() ?? $this->getDefaultContentDisposition();
+            return $this->property->type->parameters[2]->asConstExpr() ?? static::$type::contentDisposition();
         }
 
-        return $this->getDefaultContentDisposition();
-    }
-
-    protected function getDefaultContentDisposition(): string
-    {
-        /** @var string */
-        return config('model-editor.content_disposition', 'attachment');
+        return static::$type::contentDisposition();
     }
 }

@@ -35,7 +35,7 @@ class AsImage implements CastsAttributes
         return new Image(
             ltrim($value, '$'),
             $this->getDisk($value),
-            $this->contentDisposition ?: 'inline'
+            $this->contentDisposition ?: Image::contentDisposition()
         );
     }
 
@@ -64,9 +64,9 @@ class AsImage implements CastsAttributes
     protected function getDisk(string $value): ?string
     {
         if (str_starts_with($value, '$')) {
-            return config('model-editor.file.static_disk');
+            return Image::staticDisk();
         }
 
-        return $this->disk ?: config('model-editor.file.disk');
+        return $this->disk ?: Image::disk();
     }
 }

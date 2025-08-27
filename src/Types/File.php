@@ -85,4 +85,22 @@ class File implements Castable, Comparable, JsonSerializable, Stringable
     {
         return AsFile::class;
     }
+
+    public static function disk(): ?string
+    {
+        /** @var string|null */
+        return config('model-editor.file.disk');
+    }
+
+    public static function staticDisk(): ?string
+    {
+        /** @var string|null */
+        return config('model-editor.file.static_disk');
+    }
+
+    public static function contentDisposition(): string
+    {
+        /** @var string */
+        return config('model-editor.file.content_disposition', 'attachment');
+    }
 }

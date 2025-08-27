@@ -35,7 +35,7 @@ class AsFile implements CastsAttributes
         return new File(
             ltrim($value, '$'),
             $this->getDisk($value),
-            $this->contentDisposition ?: config('model-editor.content_disposition', 'attachment')
+            $this->contentDisposition ?: File::contentDisposition()
         );
     }
 
@@ -64,9 +64,9 @@ class AsFile implements CastsAttributes
     protected function getDisk(string $value): ?string
     {
         if (str_starts_with($value, '$')) {
-            return config('model-editor.file.static_disk');
+            return File::staticDisk();
         }
 
-        return $this->disk ?: config('model-editor.file.disk');
+        return $this->disk ?: File::disk();
     }
 }

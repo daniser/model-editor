@@ -66,6 +66,11 @@ class Image extends File
         return AsImage::class;
     }
 
+    public static function contentDisposition(): string
+    {
+        return 'inline';
+    }
+
     public static function previewWidth(): int
     {
         /** @var int */
