@@ -8,7 +8,7 @@ use TTBooking\ModelEditor\Types\Image;
 
 class ImageHandler extends FileHandler
 {
-    protected static string $type = Image::class;
+    protected const TYPE = Image::class;
 
     public function component(): string
     {

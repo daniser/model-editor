@@ -13,14 +13,14 @@ use TTBooking\ModelEditor\Types\File;
 class FileHandler implements PropertyHandler
 {
     /** @var class-string<File> */
-    protected static string $type = File::class;
+    protected const TYPE = File::class;
 
     public function __construct(public AuraProperty $property) {}
 
     public static function satisfies(AuraProperty $property): bool
     {
-        return is_a($property->type->name, static::$type, true)
-            || $property->type->name === 'list' && is_a($property->type->parameters[0]->name, static::$type, true);
+        return is_a($property->type->name, static::TYPE, true)
+            || $property->type->name === 'list' && is_a($property->type->parameters[0]->name, static::TYPE, true);
     }
 
     public function component(): string
@@ -67,24 +67,24 @@ class FileHandler implements PropertyHandler
 
     protected function newInstance(string $name, ?string $disk = null): File
     {
-        return new (static::$type)($name, $disk, $this->getContentDisposition());
+        return new (static::TYPE)($name, $disk, $this->getContentDisposition());
     }
 
     protected function getDisk(): ?string
     {
         if (isset($this->property->type->parameters[0])) {
-            return $this->property->type->parameters[0]->asConstExpr() ?? static::$type::disk();
+            return $this->property->type->parameters[0]->asConstExpr() ?? static::TYPE::disk();
         }
 
-        return static::$type::disk();
+        return static::TYPE::disk();
     }
 
     protected function getContentDisposition(): string
     {
         if (isset($this->property->type->parameters[2])) {
-            return $this->property->type->parameters[2]->asConstExpr() ?? static::$type::contentDisposition();
+            return $this->property->type->parameters[2]->asConstExpr() ?? static::TYPE::contentDisposition();
         }
 
-        return static::$type::contentDisposition();
+        return static::TYPE::contentDisposition();
     }
 }

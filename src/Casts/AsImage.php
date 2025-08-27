@@ -12,5 +12,5 @@ use TTBooking\ModelEditor\Types\Image;
  */
 class AsImage extends AsFile implements CastsAttributes
 {
-    protected static string $type = Image::class;
+    protected const TYPE = Image::class;
 }
