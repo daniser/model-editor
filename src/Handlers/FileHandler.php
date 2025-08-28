@@ -34,7 +34,7 @@ class FileHandler implements PropertyHandler
             return;
         }
 
-        $this->deleteFileIfNotDefault($object);
+        $this->deleteFileIfNotStaticOrDefault($object);
 
         $name = FilenameGenerator::generateStorableName($object, $this->property, $file);
         $disk = $this->getDisk();
@@ -51,18 +51,14 @@ class FileHandler implements PropertyHandler
         return true;
     }
 
-    protected function deleteFileIfNotDefault(object $object): bool
+    protected function deleteFileIfNotStaticOrDefault(object $object): bool
     {
-        $file = $object->{$this->property->variableName};
-        if (! $file instanceof File) {
-            return false;
-        }
+        $maybeFile = $object->{$this->property->variableName};
 
-        if ($file->sameAs($this->property->defaultValue)) {
-            return false;
-        }
-
-        return $file->delete();
+        return $maybeFile instanceof File
+            && ! str_starts_with($maybeFile->name, '/')
+            && ! $maybeFile->sameAs($this->property->defaultValue)
+            && $maybeFile->delete();
     }
 
     protected function newInstance(string $name, ?string $disk = null): File

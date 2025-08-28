@@ -36,7 +36,7 @@ class AsFile implements CastsAttributes
         }
 
         return new (static::TYPE)(
-            ltrim($value, '/'),
+            $value,
             $this->getDisk($value),
             $this->contentDisposition ?: static::TYPE::contentDisposition()
         );

@@ -19,7 +19,7 @@ class OrphanedFileCollector
         }
 
         foreach ($model->attributesToArray() as $maybeFile) {
-            $maybeFile instanceof File && $maybeFile->delete();
+            $maybeFile instanceof File && ! str_starts_with($maybeFile->name, '/') && $maybeFile->delete();
         }
     }
 }
