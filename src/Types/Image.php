@@ -10,11 +10,11 @@ use Intervention\Image\Laravel\Facades\Image as InterventionImage;
 use TTBooking\ModelEditor\Casts\AsImage;
 
 /**
- * @template TDisk of string|null = null
  * @template TAccept of string = "image/*"
  * @template TDisposition of string = "inline"
+ * @template TDisk of string|null = null
  *
- * @extends File<TDisk, TAccept, TDisposition>
+ * @extends File<TAccept, TDisposition, TDisk>
  */
 class Image extends File
 {
@@ -38,7 +38,7 @@ class Image extends File
         }
 
         /** @var string $data */
-        $data = $this->getContent();
+        $data = $this->get();
 
         if ($this->mediaType() === 'image/svg+xml' || $this->size() <= static::previewScaleDownThreshold()) {
             $preview = new EncodedImage($data, $this->mediaType());

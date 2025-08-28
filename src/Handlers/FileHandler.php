@@ -68,8 +68,8 @@ class FileHandler implements PropertyHandler
 
     protected function getDisk(): ?string
     {
-        if (isset($this->property->type->parameters[0])) {
-            return $this->property->type->parameters[0]->asConstExpr() ?? static::TYPE::disk();
+        if (isset($this->property->type->parameters[2])) {
+            return $this->property->type->parameters[2]->asConstExpr() ?? static::TYPE::disk();
         }
 
         return static::TYPE::disk();
@@ -77,8 +77,8 @@ class FileHandler implements PropertyHandler
 
     protected function getContentDisposition(): string
     {
-        if (isset($this->property->type->parameters[2])) {
-            return $this->property->type->parameters[2]->asConstExpr() ?? static::TYPE::contentDisposition();
+        if (isset($this->property->type->parameters[1])) {
+            return $this->property->type->parameters[1]->asConstExpr() ?? static::TYPE::contentDisposition();
         }
 
         return static::TYPE::contentDisposition();

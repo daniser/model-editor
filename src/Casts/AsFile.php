@@ -18,7 +18,7 @@ class AsFile implements CastsAttributes
     /** @var class-string<File> */
     protected const TYPE = File::class;
 
-    public function __construct(protected string $disk = '', protected string $contentDisposition = '') {}
+    public function __construct(protected string $contentDisposition = '', protected string $disk = '') {}
 
     /**
      * Cast the given value.

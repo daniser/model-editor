@@ -37,8 +37,8 @@
     <input {{ $attributes }}
         type="file"
         name="{{ $property->variableName }}"
-        @isset($property->type->parameters[1])
-        accept="{{ $property->type->parameters[1]->asConstExpr() }}"
+        @isset($property->type->parameters[0])
+        accept="{{ $property->type->parameters[0]->asConstExpr() }}"
         @endisset
         {!! $property->type->name === 'list' ? 'multiple' : '' !!}
         @readonly(! $property->writable)

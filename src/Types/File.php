@@ -13,9 +13,9 @@ use TTBooking\ModelEditor\Casts\AsFile;
 use TTBooking\ModelEditor\Contracts\Comparable;
 
 /**
- * @template TDisk of string|null = null
  * @template TAccept of string = "\*\/\*"
  * @template TDisposition of string = "attachment"
+ * @template TDisk of string|null = null
  */
 class File implements Castable, Comparable, JsonSerializable, Stringable
 {
@@ -57,7 +57,7 @@ class File implements Castable, Comparable, JsonSerializable, Stringable
         return Storage::disk($this->disk)->size($this->name);
     }
 
-    public function getContent(): ?string
+    public function get(): ?string
     {
         return Storage::disk($this->disk)->get($this->name);
     }
