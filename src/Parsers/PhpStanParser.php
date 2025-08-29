@@ -81,7 +81,7 @@ class PhpStanParser implements PropertyParser
             ));
 
         $comment = (string) Arr::first($phpDocNode->children, static fn (PhpDocChildNode $child) => $child instanceof PhpDocTextNode);
-        [$summary, $description] = explode("\n\n", $comment, 2) + ['', ''];
+        [$summary, $description] = preg_split('~\R\R~u', $comment, 2, PREG_SPLIT_NO_EMPTY) + ['', ''];
 
         return new Aura(
             summary: $summary,
