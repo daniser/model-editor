@@ -26,7 +26,6 @@ class FilenameGenerator
 
     /**
      * @param  Closure(object $object, AuraProperty $property, UploadedFile $file, string|null $disk): string  $callback
-     *
      * @return class-string<static>
      */
     public static function generateStorableNamesUsing(Closure $callback): string
