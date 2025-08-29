@@ -36,8 +36,8 @@ class FileHandler implements PropertyHandler
 
         $this->deleteFileIfNotStaticOrDefault($object);
 
-        $name = FilenameGenerator::generateStorableName($object, $this->property, $file);
         $disk = $this->getDisk();
+        $name = FilenameGenerator::generateStorableName($object, $this->property, $file, $disk);
 
         if (! $name = $file->storeAs($name, compact('disk'))) {
             return;
