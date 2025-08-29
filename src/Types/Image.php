@@ -31,6 +31,14 @@ class Image extends File
         parent::__construct($name, $disk, $contentDisposition, $mediaType);
     }
 
+    public function asDataUri(): string
+    {
+        /** @var string $data */
+        $data = $this->get();
+
+        return (new EncodedImage($data, $this->mediaType()))->toDataUri();
+    }
+
     public function preview(): ?string
     {
         if (! $this->exists()) {
