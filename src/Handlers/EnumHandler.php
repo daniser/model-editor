@@ -12,7 +12,7 @@ use TTBooking\ModelEditor\Entities\AuraProperty;
 
 class EnumHandler implements PropertyHandler
 {
-    public function __construct(public AuraProperty $property, protected int $buttonLimit = 3) {}
+    public function __construct(public AuraProperty $property, protected int $buttonLimit = 2) {}
 
     public static function satisfies(AuraProperty $property): bool
     {
