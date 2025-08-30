@@ -13,3 +13,8 @@ parameters:
         - config
 
     level: max
+
+    ignoreErrors:
+        -
+            identifier: larastan.noEnvCallsOutsideOfConfig
+            reportUnmatched: false
