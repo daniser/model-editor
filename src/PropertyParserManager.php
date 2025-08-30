@@ -36,6 +36,6 @@ class PropertyParserManager extends Manager implements PropertyParser
     public function getDefaultDriver(): string
     {
         /** @var string */
-        return $this->config->get('model-editor.property_parser.driver', 'phpstan');
+        return $this->config->get('model-editor.property_parser', 'phpstan');
     }
 }

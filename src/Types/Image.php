@@ -82,18 +82,18 @@ class Image extends File
     public static function previewWidth(): int
     {
         /** @var int */
-        return config('model-editor.image.preview.width', 100);
+        return config('model-editor.preview.width', 100);
     }
 
     public static function previewHeight(): int
     {
         /** @var int */
-        return config('model-editor.image.preview.height', 100);
+        return config('model-editor.preview.height', 100);
     }
 
     public static function previewScaleDownThreshold(): int
     {
         /** @var int */
-        return config('model-editor.image.preview.scale_down_threshold', 10_240);
+        return config('model-editor.preview.scale_down_threshold', 10_240);
     }
 }

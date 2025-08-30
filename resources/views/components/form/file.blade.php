@@ -14,7 +14,7 @@
            @endif
            title="{{ basename($file) }}"
         >
-            @if (config('model-editor.show_uploaded_file_name'))
+            @if (config('model-editor.file.show_uploaded_name'))
                 {{ basename($file) }}
             @elseif ($file->contentDisposition === 'inline')
                 {{ __('model-editor::form.open') }}
@@ -24,7 +24,7 @@
         </a>
     @else
         <span {{ $attributes }} title="{{ basename($file) }}">
-            @if (config('model-editor.show_uploaded_file_name'))
+            @if (config('model-editor.file.show_uploaded_name'))
                 {{ basename($file) }}
             @else
                 {{ __('model-editor::form.uploaded') }}

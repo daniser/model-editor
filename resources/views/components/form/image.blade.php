@@ -26,7 +26,7 @@
                         'object-fit: scale-down',
                     ])
                 />
-            @elseif (config('model-editor.show_uploaded_file_name'))
+            @elseif (config('model-editor.file.show_uploaded_name'))
                 {{ basename($file) }}
             @elseif ($file->contentDisposition === 'inline')
                 {{ __('model-editor::form.open') }}
@@ -47,7 +47,7 @@
                         'object-fit: scale-down',
                     ])
                 />
-            @elseif (config('model-editor.show_uploaded_file_name'))
+            @elseif (config('model-editor.file.show_uploaded_name'))
                 {{ basename($file) }}
             @else
                 {{ __('model-editor::form.uploaded') }}
