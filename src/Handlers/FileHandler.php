@@ -7,7 +7,6 @@ namespace TTBooking\ModelEditor\Handlers;
 use Illuminate\Http\Request;
 use TTBooking\ModelEditor\Contracts\PropertyHandler;
 use TTBooking\ModelEditor\Entities\AuraProperty;
-use TTBooking\ModelEditor\Support\FilenameGenerator;
 use TTBooking\ModelEditor\Types\File;
 
 class FileHandler implements PropertyHandler
@@ -37,7 +36,7 @@ class FileHandler implements PropertyHandler
         $this->deleteFileIfNotStaticOrDefault($object);
 
         $disk = $this->getDisk();
-        $name = FilenameGenerator::generateStorableName($object, $this->property, $file, $disk);
+        $name = File::generateStorableName($object, $this->property, $file, $disk);
 
         if (! $name = $file->storeAs($name, compact('disk'))) {
             return;

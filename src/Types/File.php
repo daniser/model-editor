@@ -4,13 +4,16 @@ declare(strict_types=1);
 
 namespace TTBooking\ModelEditor\Types;
 
+use Closure;
 use Illuminate\Contracts\Database\Eloquent\Castable;
 use Illuminate\Http\Testing\MimeType;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use JsonSerializable;
 use Stringable;
 use TTBooking\ModelEditor\Casts\AsFile;
 use TTBooking\ModelEditor\Contracts\Comparable;
+use TTBooking\ModelEditor\Entities\AuraProperty;
 
 /**
  * @template TAccept of string = "\*\/\*"
@@ -19,6 +22,9 @@ use TTBooking\ModelEditor\Contracts\Comparable;
  */
 class File implements Castable, Comparable, JsonSerializable, Stringable
 {
+    /** @var null|Closure(object, AuraProperty, UploadedFile, string|null): string */
+    protected static ?Closure $storableNamesGenerator = null;
+
     /**
      * @param  TDisk  $disk
      * @param  TDisposition  $contentDisposition
@@ -102,5 +108,37 @@ class File implements Castable, Comparable, JsonSerializable, Stringable
     {
         /** @var string */
         return config('model-editor.file.content_disposition', 'attachment');
+    }
+
+    public static function generateStorableName(
+        object $object,
+        AuraProperty $property,
+        UploadedFile $file,
+        ?string $disk = null,
+    ): string {
+        return static::$storableNamesGenerator
+            ? (static::$storableNamesGenerator)($object, $property, $file, $disk)
+            : $file->hashName();
+    }
+
+    /**
+     * @param  Closure(object $object, AuraProperty $property, UploadedFile $file, string|null $disk): string  $callback
+     * @return class-string<static>
+     */
+    public static function generateStorableNamesUsing(Closure $callback): string
+    {
+        static::$storableNamesGenerator = $callback;
+
+        return static::class;
+    }
+
+    /**
+     * @return class-string<static>
+     */
+    public static function generateStorableNamesNormally(): string
+    {
+        static::$storableNamesGenerator = null;
+
+        return static::class;
     }
 }
